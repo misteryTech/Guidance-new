@@ -89,7 +89,7 @@
                
 
                   <li class="nav-item">
-                    <a class="nav-link" href="pages/ui-features/typography.html">Counselor Booked</a>
+                    <a class="nav-link" href="#">Counselor Booked</a>
                   </li>
                 </ul>
               </div>
@@ -99,7 +99,7 @@
 
             <li class="nav-item <?php $current_page == 'patient-page.php' ? 'active' : '' ?>">
               <a class="nav-link" data-bs-toggle="collapse" href="#ui-patient" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">Patient</span>
+                <span class="menu-title">Client</span>
                 <i class="menu-arrow"></i>
                 <i class="fa fa-user menu-icon"></i>
               </a>
@@ -109,7 +109,7 @@
                     <a class="nav-link" href="patient-page.php">Registration</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="patient-list.php">List of Patient</a>
+                    <a class="nav-link" href="patient-list.php">List of Client</a>
                   </li>
 
                   <li class="nav-item">

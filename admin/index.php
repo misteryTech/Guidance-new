@@ -5,13 +5,11 @@
 
 
 <?php
-
   include("banner.php");
   include("top-navigation.php");
 
 ?>
 
-     
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
  

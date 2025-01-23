@@ -126,8 +126,21 @@ include "top-navigation.php";
                                <input type="text" class="form-control" name="reason_for_appointment" placeholder="Enter reason" required />
                            </div>
                        </div>
+                       <div class="form-group row">
+                       <label class="col-sm-3 col-form-label">Appointment Type:</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="appointment_type" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="Solo">Solo</option>
+                        <option value="Group">Group</option>
+                      </select>
+                    </div>
+                       </div>
+
                </div>
 
+
+           
     
           <!-- <div class="col-md-12">
                    <div class="form-group row">
@@ -142,6 +155,11 @@ include "top-navigation.php";
                        </div>
                    </div>
                </div> -->
+
+            
+
+
+
            </div>
 
     <!-- Submit Button -->

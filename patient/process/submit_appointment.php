@@ -13,12 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $appointment_time = mysqli_real_escape_string($conn, $_POST['appointment_time']);
     $appointment_date = mysqli_real_escape_string($conn, $_POST['appointment_date']);
     $reason_for_appointment = mysqli_real_escape_string($conn, $_POST['reason_for_appointment']);
-    $treatment = mysqli_real_escape_string($conn, $_POST['treatment']);
+    $treatment = "N/A";
+    $appointment_type = mysqli_real_escape_string($conn, $_POST['appointment_type']);
     $status = "Request";
 
     // Insert data into the appointments table
-    $query = "INSERT INTO appointments (Counselor_Id, Appointment_Time, Appointment_Date, Reason_for_Appointment, Treatment, Status, Patient_Id) 
-              VALUES ('$counselor_id', '$appointment_time', '$appointment_date', '$reason_for_appointment', '$treatment' , $status,'$patient_id')";
+    $query = "INSERT INTO appointments (Counselor_Id, Appointment_Time, Appointment_Date, Reason_for_Appointment, Treatment, `Status`, Patient_Id, Appointment_Type) 
+              VALUES ('$counselor_id', '$appointment_time', '$appointment_date', '$reason_for_appointment', '$treatment' , '$status','$patient_id', '$appointment_type')";
     
   
     // Check if the query is successful

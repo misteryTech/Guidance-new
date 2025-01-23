@@ -4,7 +4,7 @@ session_start();
 
 // Redirect if already logged in
 if (isset($_SESSION['Patient_Id'])) {
-    header("Location: patient/index.php");
+    header("Location: Patient/index.php");
     exit();
 }
 
@@ -33,17 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->num_rows === 1) {
         // Bind results
-        $stmt->bind_result($patient_id, $username, $db_password);
+        $stmt->bind_result($Patient_Id, $username, $db_password);
         $stmt->fetch();
 
         // Verify the password (assumes passwords are hashed in the database)
         if ($password === $db_password) {
             // Set session variables on successful login
-            $_SESSION['Patient_Id'] = $patient_id;
+            $_SESSION['Patient_Id'] = $Patient_Id;
             $_SESSION['Username'] = $username;
 
             // Redirect to the dashboard
-            header("Location: patient/index.php");
+            header("Location: Patient/index.php");
             exit();
         } else {
             $error_message = "Invalid password. Please try again.";
