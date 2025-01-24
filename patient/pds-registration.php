@@ -32,7 +32,7 @@ include("top-navigation.php");
           <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Patient</h4>
+                    <h4 class="card-title">Student</h4>
       <?php
 
   // Example of checking and displaying session messages for success or error
@@ -48,13 +48,13 @@ unset($_SESSION['update_message']);
 
                     
                     <form class="form-sample" id="counselorRegistration" action="process/pds-registration.php" method="POST">
-  <p class="card-description">Patient Registration Form</p>
+  <p class="card-description">Student Registration Form</p>
   
   <div class="row">
     <!-- Counselor ID -->
     <div class="col-md-6">
          <div class="form-group row">
-    <label for="patientId" class="col-sm-3 col-form-label">Patient ID <span class="notification">*</span></label>
+    <label for="patientId" class="col-sm-3 col-form-label">Student ID <span class="notification">*</span></label>
     <div class="col-sm-9">
       <input 
         type="text" 

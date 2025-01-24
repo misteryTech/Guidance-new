@@ -4,7 +4,7 @@ session_start();
 
 // Redirect if already logged in
 if (isset($_SESSION['Patient_Id'])) {
-    header("Location: Patient/index.php");
+    header("Location: patient/index.php");
     exit();
 }
 
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['Username'] = $username;
 
             // Redirect to the dashboard
-            header("Location: Patient/index.php");
+            header("Location: patient/index.php");
             exit();
         } else {
             $error_message = "Invalid password. Please try again.";
@@ -75,10 +75,10 @@ $conn->close();
                 <?php endif; ?>
 
                 <form action="" method="POST">
-                    <h3 class="text-center">Patient Login</h3>
+                    <h3 class="text-center">Student Login</h3>
                     <div class="inputbox">
                         <input type="text" id="identifier" name="identifier" required placeholder=" " />
-                        <label for="identifier">Patient ID or Username</label>
+                        <label for="identifier">Student ID or Username</label>
                     </div>
                     <div class="inputbox">
                         <input type="password" id="password" name="password" required placeholder=" " />

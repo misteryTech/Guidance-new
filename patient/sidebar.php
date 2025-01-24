@@ -14,7 +14,7 @@
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
                   <span class="font-weight-bold mb-2"><?php echo $fullname; ?> </span>
-                  <span class="text-secondary text-small">Patient</span>
+                  <span class="text-secondary text-small">Student</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
@@ -34,8 +34,8 @@
 
 
             
-            <li class="nav-item <?= $current_page =='Booked-appointment.php' ? 'active' : ''?>">
-              <a class="nav-link" href="Booked-appointment.php">
+            <li class="nav-item <?= $current_page =='booked-appointment.php' ? 'active' : ''?>">
+              <a class="nav-link" href="booked-appointment.php">
                 <span class="menu-title">Set Appointment</span>
                 <i class="mdi mdi-calendar menu-icon"></i>
               </a>

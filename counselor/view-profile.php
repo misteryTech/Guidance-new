@@ -88,7 +88,7 @@ $conn->close();
         <div class="text-center">
             <img src="../GFI-LOGO.png" alt="Logo" style="width: 150px; height: auto; margin-bottom: 15px;">
             <!-- Title Section -->
-            <h1 class="card-title" style="font-size: 35px; margin-bottom: 20px;">Patient Personal Data Sheet</h1>
+            <h1 class="card-title" style="font-size: 35px; margin-bottom: 20px;">Student Personal Data Sheet</h1>
             <h3 class="card-title" style="font-size: 20px; margin-bottom: 20px;">GENSANTOS FOUNDATION COLLEGE,INC.
             Bulaong Extension, General Santos City</h3>
 
@@ -111,7 +111,7 @@ $conn->close();
             <div class="row">
                 <div class="col-md-6">
                     <h4>Personal Details</h4>
-                    <p><strong>Patient ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
+                    <p><strong>Student ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
                     <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] . " " . $patient['LastName']); ?></p>
                     <p><strong>Date of Birth:</strong> <?= htmlspecialchars($patient['DateOfBirth']); ?></p>
                     <p><strong>Gender:</strong> <?= htmlspecialchars($patient['Gender']); ?></p>

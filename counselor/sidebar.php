@@ -70,7 +70,7 @@
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#pds" aria-expanded="false" aria-controls="icons">
-                <span class="menu-title">Patient PDS Information</span>
+                <span class="menu-title">Student PDS Information</span>
                 <i class="mdi mdi-notebook menu-icon"></i>
               </a>
               <div class="collapse" id="pds">
