@@ -20,8 +20,6 @@
               </a>
             </li>
   
-
-
             <li class="nav-item <?= $current_page =='index.php' ? 'active' : ''?>">
               <a class="nav-link" href="index.php">
                 <span class="menu-title">Dashboard</span>
@@ -29,11 +27,6 @@
               </a>
             </li>
 
-
-
-
-
-            
             <li class="nav-item <?= $current_page =='booked-appointment.php' ? 'active' : ''?>">
               <a class="nav-link" href="booked-appointment.php">
                 <span class="menu-title">Set Appointment</span>
