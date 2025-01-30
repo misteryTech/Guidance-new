@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Determine if the identifier is an email or a username
     if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
-        $admin_query = "SELECT Admin_Id, Username, Email, Password FROM Admin_Table WHERE Email = ?";
+        $admin_query = "SELECT Admin_Id, Username, Email, Password FROM admin_table WHERE Email = ?";
         $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM Counselor_Table WHERE Email = ?";
     } else {
-        $admin_query = "SELECT Admin_Id, Username, Email, Password FROM Admin_Table WHERE Username = ?";
+        $admin_query = "SELECT Admin_Id, Username, Email, Password FROM admin_table WHERE Username = ?";
         $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM Counselor_Table WHERE Username = ?";
     }
 
@@ -127,8 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                     <a href="#" class="auth-link text-primary">Forgot password?</a>
                                 </div>
-                                <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.html" class="text-primary">Create</a>
-                                </div>
+                                <!-- <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                                </div> -->
                             </form>
                         </div>
                     </div>

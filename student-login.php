@@ -91,9 +91,9 @@ $conn->close();
                         </label>
                     </div>
                     <button type="submit">Login</button>
-                    <div class="register">
+                    <!-- <div class="register">
                         <p>Don't have an account? <a href="register.php">Register here</a></p>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

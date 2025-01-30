@@ -13,7 +13,7 @@ include("connection.php");
 
 // Fetch the admin details from the database
 $admin_id = $_SESSION['Admin_Id'];
-$sql = "SELECT FirstName, LastName FROM Admin_Table WHERE Admin_Id = ?";
+$sql = "SELECT FirstName, LastName FROM admin_table WHERE Admin_Id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $admin_id); // Bind the session admin ID as a string
 $stmt->execute();
