@@ -63,7 +63,6 @@ if ($result->num_rows === 1) {
 
 
 
-
   </head>
   <body>
 

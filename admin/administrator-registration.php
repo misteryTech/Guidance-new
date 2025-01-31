@@ -239,7 +239,7 @@ include("top-navigation.php");
   <div class="row">
     <!-- Submit Button -->
     <div class="col-md-12 text-center">
-    <button type="submit" class="btn btn-success" id="submitButton" disabled>Register</button>
+    <button type="submit" class="btn btn-success" >Register</button>
 
     </div>
   </div>
@@ -351,7 +351,7 @@ include("top-navigation.php");
   const togglePassword = document.querySelector('#togglePassword');
   const password = document.querySelector('#password');
   const passwordError = document.querySelector('#passwordError'); // Error message element
-  const submitButton = document.querySelector('button[type="submit"]'); // Submit button
+ 
 
   togglePassword.addEventListener('click', function () {
     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -359,21 +359,7 @@ include("top-navigation.php");
     this.textContent = type === 'password' ? 'Show Password' : 'Hide Password';
   });
 
-  // Password Validation Function
-  function validatePassword() {
-    const passwordValue = password.value;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-    // Check if the password matches the pattern
-    if (passwordPattern.test(passwordValue)) {
-      passwordError.style.display = 'none'; // Hide error message
-      return true;
-    } else {
-      passwordError.style.display = 'block'; // Show error message
-      passwordError.textContent = 'Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.';
-      return false;
-    }
-  }
 
   // Listen to input event on the password field to validate as the user types
   password.addEventListener('input', validatePassword);

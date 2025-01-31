@@ -20,8 +20,8 @@ include("sidebar.php");
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Patient Table</h4>
-                    <p class="card-description"> List of <code>Archived Patient</code></p>
+                    <h4 class="card-title">Student Table</h4>
+                    <p class="card-description"> List of <code>Archived Student</code></p>
 
                     <?php
                     // Check if there's a session message for registration success or error
@@ -43,7 +43,7 @@ include("sidebar.php");
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th> Patient ID </th>
+                                <th> Student ID </th>
                                 <th> Full Name </th>
                                 <th> Email </th>
                                 <th> Gender </th>
@@ -108,11 +108,11 @@ include("sidebar.php");
             <div class="modal-content">
                 <form id="archiveForm" method="post" action="process/patient-unarchive.php">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="archiveModalLabel">Restore patient</h5>
+                        <h5 class="modal-title" id="archiveModalLabel">Restore Student</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to restore this patient?</p>
+                        <p>Are you sure you want to restore this Student?</p>
                         <input type="hidden" id="archivepatientId" name="patient_id">
                     </div>
                     <div class="modal-footer">

@@ -19,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $archive = "No";
 
     // SQL Query to insert data into the database
-    $sql = "INSERT INTO Admin_Table (Admin_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
+    $sql = "INSERT INTO admin_table (Admin_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
             VALUES ('$adminID', '$email', '$firstName', '$lastName', '$gender', '$dob', '$address', '$phone', '$username', '$password', '$archive')";
 
     // Check if the query is successful
     if ($conn->query($sql) === TRUE) {
         $_SESSION['registration_status'] = 'success';  // Set session variable for success message
-        $_SESSION['registration_message'] = 'New counselor registered successfully!';  // Success message
+        $_SESSION['registration_message'] = 'New administrator registered successfully!';  // Success message
     } else {
         $_SESSION['registration_status'] = 'error';  // Set session variable for error message
         $_SESSION['registration_message'] = 'Error: ' . $conn->error;  // Error message

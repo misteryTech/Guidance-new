@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 
     // Redirect back to the registration page (or to a page that will show the modal)
-    header("Location: ../patient-registration.php");  // Change the redirection to your page
+    header("Location: ../patient-page.php");  // Change the redirection to your page
     exit();
 }
 ?>

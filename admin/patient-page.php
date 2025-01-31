@@ -32,7 +32,7 @@ include("top-navigation.php");
           <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Patient</h4>
+                    <h4 class="card-title">Student</h4>
       <?php
 
     // Check if there's a session message for registration success or error
@@ -49,13 +49,13 @@ include("top-navigation.php");
 
                     
                     <form class="form-sample" id="AdminRegistration" action="process/register-patient.php" method="POST">
-  <p class="card-description">Patient Registration Form</p>
+  <p class="card-description">Student Registration Form</p>
   
   <div class="row">
     <!-- Counselor ID -->
     <div class="col-md-6">
   <div class="form-group row">
-    <label for="patientId" class="col-sm-3 col-form-label">Patient ID <span class="notification">*</span></label>
+    <label for="patientId" class="col-sm-3 col-form-label">Student ID <span class="notification">*</span></label>
     <div class="col-sm-9">
       <input 
         type="text" 
@@ -239,7 +239,7 @@ include("top-navigation.php");
   <div class="row">
     <!-- Submit Button -->
     <div class="col-md-12 text-center">
-    <button type="submit" class="btn btn-success" id="submitButton" disabled>Register</button>
+    <button type="submit" class="btn btn-success" id="submitButton" >Register</button>
 
     </div>
   </div>
@@ -320,7 +320,7 @@ include("top-navigation.php");
   const togglePassword = document.querySelector('#togglePassword');
   const password = document.querySelector('#password');
   const passwordError = document.querySelector('#passwordError'); // Error message element
-  const submitButton = document.querySelector('button[type="submit"]'); // Submit button
+
 
   togglePassword.addEventListener('click', function () {
     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -328,21 +328,6 @@ include("top-navigation.php");
     this.textContent = type === 'password' ? 'Show Password' : 'Hide Password';
   });
 
-  // Password Validation Function
-  function validatePassword() {
-    const passwordValue = password.value;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-
-    // Check if the password matches the pattern
-    if (passwordPattern.test(passwordValue)) {
-      passwordError.style.display = 'none'; // Hide error message
-      return true;
-    } else {
-      passwordError.style.display = 'block'; // Show error message
-      passwordError.textContent = 'Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.';
-      return false;
-    }
-  }
 
   // Listen to input event on the password field to validate as the user types
   password.addEventListener('input', validatePassword);
