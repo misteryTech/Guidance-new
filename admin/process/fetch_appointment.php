@@ -7,7 +7,10 @@ include("../connection.php");
 
 header('Content-Type: application/json'); // Set JSON header
 
-$sql = "SELECT Counselor_Id, Reason_for_Appointment, Appointment_Date FROM appointments";
+$sql = "SELECT Counselor_Id, Reason_for_Appointment, Appointment_Date  
+
+
+FROM appointments";
 $result = $conn->query($sql);
 
 $events = [];
