@@ -14,8 +14,8 @@ $events = [];
 
 while ($row = $result->fetch_assoc()) {
     $events[] = [
-        'id' => $row['Counselor_Id'],  // Use correct column name
-        'title' => $row['Reason_for_Appointment'], // Rename to 'title' for FullCalendar
+        'id' => $row['Reason_for_Appointment'],  // Use correct column name
+        'title' => $row['Counselor_Id'], // Rename to 'title' for FullCalendar
         'start' => $row['Appointment_Date'] // Ensure date is in 'YYYY-MM-DD HH:MM:SS' format
     ];
 }

@@ -30,15 +30,7 @@ include("top-navigation.php");
 
         include("footer.php");
       ?>
-<!-- ✅ Load jQuery FIRST -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- ✅ Load FullCalendar CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css" rel="stylesheet" />
-
-<!-- ✅ Load FullCalendar JS (Ensure Core + DayGrid Plugins) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/locales-all.min.js"></script>
 
 <!-- ✅ Initialize FullCalendar Correctly -->
 <script>
