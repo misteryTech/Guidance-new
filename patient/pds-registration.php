@@ -68,7 +68,7 @@ unset($_SESSION['update_message']);
 
 
                     
-                    <form class="form-sample" id="counselorRegistration" action="process/pds-registration.php" method="POST">
+                    <form class="form-sample" id="studentPds" action="process/pds-registration.php" method="POST">
   <p class="card-description">Student Registration Form</p>
   
   <div class="row">
@@ -238,45 +238,6 @@ unset($_SESSION['update_message']);
 
   <div class="row">
 
-    <!-- <div class="col-md-6">
-  <div class="form-group row">
-    <label for="username" class="col-sm-3 col-form-label">Username <span class="notification">*</span></label>
-    <div class="col-sm-9">
-      <input 
-        type="text" 
-        class="form-control" 
-        id="username" 
-        name="username" 
-        oninput="checkUsername()" 
-        required 
-      />
-      <p id="usernameError" style="color: red; display: none;">Username is already taken.</p>
-      <p id="usernameSuccess" style="color: green; display: none;">Username is available.</p>
-    </div>
-  </div>
-</div>
-
-
-
-    <div class="col-md-6">
-      <div class="form-group row">
-        <label for="password" class="col-sm-3 col-form-label">Password <span class="notification">*</span></label>
-        <div class="col-sm-9">
-          <input 
-            type="password" 
-            class="form-control" 
-            id="password" 
-            name="password" 
-            required 
-          />
-          <button type="button" id="togglePassword" class="btn btn-outline-secondary btn-sm mt-2">Show Password</button>
-        </div>
-      </div>
-    </div>
-  </div>
- -->
-
-
  <hr>
 
 <div class="row">
@@ -417,279 +378,66 @@ unset($_SESSION['update_message']);
 
 <hr>
 <p class="card-description">FAMILY HISTORY</p>
+<?php
+$parents = ['father' => 'Father', 'mother' => 'Mother'];
+$fields = [
+    'firstname' => 'Firstname',
+    'lastname' => 'Lastname',
+    'religion' => 'Religion',
+    'tribe' => 'Tribe',
+    'cellphone' => 'Landline/Cellphone No.',
+    'email' => 'Email Address',
+    'schoolattain' => 'Highest Educational Attainment',
+    'language' => 'Language/s Spoken',
+    'occupation' => 'Occupation',
+    'business' => 'Business/Office Address',
+    'position' => 'Position Held',
+];
+
+$educationOptions = [
+    "High School", "Undergraduate", "Bachelor's Degree", "Master's Degree", "Doctorate"
+];
+
+$religions = ["Christian", "Islam", "Hindu", "Buddhist", "Other"];
+?>
 
 <div class="row">
-  <div class="col-md-6">
-      <h2>Father</h2>
-      <div class="form-group row">
-          <label for="">Firstname</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control"  name="father_firstname">
-          </div>
-      </div>
-  </div>
-
-  <div class="col-md-6">
-      <h2>Mother</h2>
-      <div class="form-group row">
-          <label for="">Firstname</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" name="mother_firstname">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="">Lastname</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" name="father_lastname" >
-          </div>
-      </div>
-  </div>
-
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="">Lastname</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" name="mother_lastname" >
-          </div>
-      </div>
-  </div>
+    <?php foreach ($parents as $key => $label) : ?>
+        <div class="col-md-6">
+            <h2><?= $label ?></h2>
+            <?php foreach ($fields as $field => $fieldLabel) : ?>
+                <div class="form-group row">
+                    <label><?= $fieldLabel ?></label>
+                    <div class="col-sm-9">
+                        <?php if ($field === 'religion') : ?>
+                            <select class="form-select" name="<?= $key . '_' . $field ?>">
+                                <option value="" disabled selected>Select your religion</option>
+                                <?php foreach ($religions as $religion) : ?>
+                                    <option value="<?= $religion ?>"><?= $religion ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'schoolattain') : ?>
+                            <select class="form-select" name="<?= $key . '_' . $field ?>">
+                                <option value="" disabled selected>Select your highest educational attainment</option>
+                                <?php foreach ($educationOptions as $option) : ?>
+                                    <option value="<?= $option ?>"><?= $option ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'cellphone') : ?>
+                            <input type="number" class="form-control" name="<?= $key . '_' . $field ?>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx">
+                        <?php elseif ($field === 'email') : ?>
+                            <input type="email" class="form-control" name="<?= $key . '_' . $field ?>" placeholder="example@email.com">
+                        <?php else : ?>
+                            <input type="text" class="form-control" name="<?= $key . '_' . $field ?>">
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
 </div>
 
 
-
-
-
-
-<div class="row">
-  <!-- Religion Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="religion1">Religion</label>
-          <div class="col-sm-9">
-              <select class="form-select" id="freligion" >
-                  <option value="" disabled selected>Select your religion</option>
-                  <option value="Christian">Christian</option>
-                  <option value="Islam">Islam</option>
-                  <option value="Hindu">Hindu</option>
-                  <option value="Buddhist">Buddhist</option>
-                  <option value="Other">Other</option>
-              </select>
-          </div>
-      </div>
-  </div>
-
-  <!-- Religion Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="religion2">Religion</label>
-          <div class="col-sm-9">
-              <select class="form-select" id="mreligion">
-                  <option value="" disabled selected>Select your religion</option>
-                  <option value="Christian">Christian</option>
-                  <option value="Islam">Islam</option>
-                  <option value="Hindu">Hindu</option>
-                  <option value="Buddhist">Buddhist</option>
-                  <option value="Other">Other</option>
-              </select>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Tribe Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="tribe1">Tribe</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="ftribe" >
-          </div>
-      </div>
-  </div>
-
-  <!-- Tribe Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="tribe2">Tribe</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="mtribe">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Contact Number Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="contact1">Landline/Cellphone No.</label>
-          <div class="col-sm-9">
-              <input type="tel" class="form-control" id="contact1" name="fcellphone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx" >
-          </div>
-      </div>
-  </div>
-
-  <!-- Contact Number Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="contact2">Landline/Cellphone No.</label>
-          <div class="col-sm-9">
-              <input type="tel" class="form-control" id="contact2" name="mcellphone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Email Address Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="email1">Email Address</label>
-          <div class="col-sm-9">
-              <input type="email" class="form-control" id="email1" name="femail" placeholder="example@email.com" >
-          </div>
-      </div>
-  </div>
-
-  <!-- Email Address Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="email2">Email Address</label>
-          <div class="col-sm-9">
-              <input type="email" class="form-control" id="email2" name="memail" placeholder="example@email.com">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Highest Educational Attainment Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="edu1">Highest Educational Attainment</label>
-          <div class="col-sm-9">
-              <select class="form-select" id="edu1"  name="fschoolattain">
-                  <option value="" disabled selected>Select your highest educational attainment</option>
-                  <option value="High School">High School</option>
-                  <option value="Undergraduate">Undergraduate</option>
-                  <option value="Bachelor's Degree">Bachelor's Degree</option>
-                  <option value="Master's Degree">Master's Degree</option>
-                  <option value="Doctorate">Doctorate</option>
-              </select>
-          </div>
-      </div>
-  </div>
-
-  <!-- Highest Educational Attainment Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="edu2">Highest Educational Attainment</label>
-          <div class="col-sm-9">
-              <select class="form-select" id="edu2" name="mschoolattain">
-                  <option value="" disabled selected>Select your highest educational attainment</option>
-                  <option value="High School">High School</option>
-                  <option value="Undergraduate">Undergraduate</option>
-                  <option value="Bachelor's Degree">Bachelor's Degree</option>
-                  <option value="Master's Degree">Master's Degree</option>
-                  <option value="Doctorate">Doctorate</option>
-              </select>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Languages Spoken Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="flanguage">Language/s Spoken</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="flanguage" name="flanguage">
-          </div>
-      </div>
-  </div>
-
-  <!-- Languages Spoken Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="mlanguage">Language/s Spoken</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="mlanguage" name="mlanguage">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Occupation Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="foccupation">Occupation</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="foccupation"  name="foccupation">
-          </div>
-      </div>
-  </div>
-
-  <!-- Occupation Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="moccupation">Occupation</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="moccupation" name="moccupation">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Business/Office Address Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="fbusiness">Business/Office Address</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="business1" name="fbusiness" >
-          </div>
-      </div>
-  </div>
-
-  <!-- Business/Office Address Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="mbusiness">Business/Office Address</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="mbusiness" name="mbusiness">
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <!-- Position Held Field -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="fposition">Position Held</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="fposition" name="fposition" >
-          </div>
-      </div>
-  </div>
-
-  <!-- Position Held Field 2 -->
-  <div class="col-md-6">
-      <div class="form-group row">
-          <label for="mposition">Position Held</label>
-          <div class="col-sm-9">
-              <input type="text" class="form-control" id="mposition" name="mposition">
-          </div>
-      </div>
-  </div>
-</div>
 
 
 <div class="row">
@@ -796,7 +544,7 @@ unset($_SESSION['update_message']);
                              <div class="col-sm-12">
                                  <input type="text" class="form-control" id="wife_lastname" name="wife_lastname">
                              </div>
-                         </div>
+                         </div> 
                      </div>
                 </div>
 
@@ -828,7 +576,7 @@ unset($_SESSION['update_message']);
                          <div class="form-group row">
                              <label for="wife_educ">Education Attainment</label>
                              <div class="col-sm-12">
-                                 <input type="text" class="form-control" id="wife_educ" name="wife_educ">
+                                 <input type="text" class="form-control" id=" " name="wife_educ">
                              </div>
                          </div>
                       </div>
@@ -841,282 +589,66 @@ unset($_SESSION['update_message']);
 
 
            <div class="col-md-12">
-                    <div class="form-group row">
-                    <label><b>Other members of household? </b>(Relatives,Helpers,etc.)</label>
-                          <h6>Household 1</h6>
-                          <div class="row">
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Firstname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
+    <div class="form-group">
+        <label><b>Other members of household?</b> (Relatives, Helpers, etc.)</label>
 
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Lastname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1lname" name="household1lname">
-                                            </div>
-                                    </div>
-                              </div>
+        <!-- Loop for Household Members -->
+        <script>
+            const householdCount = 4;
+            document.addEventListener("DOMContentLoaded", function () {
+                let container = document.getElementById("household-container");
+                for (let i = 1; i <= householdCount; i++) {
+                    container.innerHTML += `
+                        <h6>Household ${i}</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Firstname</label>
+                                    <input type="text" class="form-control" id="household${i}fname" name="household${i}fname">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Lastname</label>
+                                    <input type="text" class="form-control" id="household${i}lname" name="household${i}lname">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Sex</label>
+                                    <input type="text" class="form-control" id="household${i}sex" name="household${i}sex">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input type="text" class="form-control" id="household${i}age" name="household${i}age">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Civil Status</label>
+                                    <input type="text" class="form-control" id="household${i}civilstatus" name="household${i}civilstatus">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Relationship</label>
+                                    <input type="text" class="form-control" id="household${i}relationship" name="household${i}relationship">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        </script>
 
-
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Sex</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Age</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Civil Status</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Relationship</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-
-                          </div>
-
-
-
-
-                          <h6>Household 2</h6>
-                          <div class="row">
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Firstname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Lastname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1lname" name="household1lname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Sex</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Age</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Civil Status</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Relationship</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-
-                          </div>
-
-
-
-
-
-                          <h6>Household 3</h6>
-                          <div class="row">
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Firstname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Lastname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1lname" name="household1lname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Sex</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Age</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Civil Status</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Relationship</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-
-                          </div>
-
-
-
-                          <h6>Household 4</h6>
-                          <div class="row">
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Firstname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Lastname</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1lname" name="household1lname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Sex</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Age</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Civil Status</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Relationship</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-
-                          </div>
-
-
-
-                    </div>
-           </div>
+        <div id="household-container"></div>
+    </div>
 </div>
+
+           </div>
+
 
 <hr>
 
@@ -1129,41 +661,41 @@ unset($_SESSION['update_message']);
       <div class="col-sm-12 d-flex flex-wrap gap-4">
         <!-- Radio buttons for marital status -->
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-          <label class="form-check-label" for="both-parents">Below Php 10,000.00</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="below-10k">
+          <label class="form-check-label" for="family-income">Below Php 10,000.00</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="10k-20k">
           <label class="form-check-label" for="father">10,000 – 20,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="20,001-30k">
           <label class="form-check-label" for="mother">20,001 – 30,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="grandparents" name="live_present" value="grandparents">
-          <label class="form-check-label" for="grandparents">30,001 – 40,000</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="30,001-40k">
+          <label class="form-check-label" for="family-income">30,001 – 40,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="brothers-sisters" name="live_present" value="brothers-sisters">
-          <label class="form-check-label" for="brothers-sisters">40,001 – 50,000</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="40,001-50k">
+          <label class="form-check-label" for="family-income">40,001 – 50,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="relatives" name="live_present" value="relatives">
-          <label class="form-check-label" for="relatives">50,001 – 60,000</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="50,001-60k">
+          <label class="form-check-label" for="family-income">50,001 – 60,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="others" name="live_present" value="others">
-          <label class="form-check-label" for="others">60,001 – 70,000</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="60,001-70k">
+          <label class="form-check-label" for="family-income">60,001 – 70,000</label>
         </div>
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="others" name="live_present" value="others">
-          <label class="form-check-label" for="others">70,001 – 80,000</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="70,001-80k">
+          <label class="form-check-label" for="family-income">70,001 – 80,000</label>
         </div>
 
         <div class="form-check">
-          <input type="radio" class="form-check-input" id="others" name="live_present" value="others">
-          <label class="form-check-label" for="others">80,001 – Above</label>
+          <input type="radio" class="form-check-input" id="family-income" name="family-income" value="above-80k">
+          <label class="form-check-label" for="family-income">80,001 – Above</label>
         </div>
    
       </div>
@@ -1177,21 +709,21 @@ unset($_SESSION['update_message']);
               <div class="col-sm-12 d-flex flex-wrap gap-4">
                 <!-- Radio buttons for marital status -->
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                  <label class="form-check-label" for="both-parents">Car/SUV</label>
+                  <input type="radio" class="form-check-input" id="car-suv" name="family-transpo" value="car-suv">
+                  <label class="form-check-label" for="car-suv">Car/SUV</label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                  <label class="form-check-label" for="father">Jeep</label>
+                  <input type="radio" class="form-check-input" id="jeep" name="family-transpo" value="jeep">
+                  <label class="form-check-label" for="jeep">Jeep</label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                  <label class="form-check-label" for="mother">Tricycle</label>
+                  <input type="radio" class="form-check-input" id="tricycle" name="family-transpo" value="tricycle">
+                  <label class="form-check-label" for="tricycle">Tricycle</label>
                 </div>
 
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                  <label class="form-check-label" for="mother">Motorcycle</label>
+                  <input type="radio" class="form-check-input" id="motorcycle" name="family-transpo" value="motorcycle">
+                  <label class="form-check-label" for="motorcycle">Motorcycle</label>
                 </div>
 
         </div>
@@ -1204,21 +736,21 @@ unset($_SESSION['update_message']);
               <div class="col-sm-12 d-flex flex-wrap gap-4">
                 <!-- Radio buttons for marital status -->
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                  <label class="form-check-label" for="both-parents">Car/SUV</label>
+                  <input type="radio" class="form-check-input" id="car-suv" name="transpo-school" value="car-suv">
+                  <label class="form-check-label" for="car-suv">Car/SUV</label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                  <label class="form-check-label" for="father">Jeep</label>
+                  <input type="radio" class="form-check-input" id="jeep" name="transpo-school" value="jeep">
+                  <label class="form-check-label" for="jeep">Jeep</label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                  <label class="form-check-label" for="mother">Tricycle</label>
+                  <input type="radio" class="form-check-input" id="tricycle" name="transpo-school" value="tricycle">
+                  <label class="form-check-label" for="tricycle">Tricycle</label>
                 </div>
         
                 <div class="form-check">
-                  <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                  <label class="form-check-label" for="mother">Motorcycle</label>
+                  <input type="radio" class="form-check-input" id="motorcycle" name="transpo-school" value="motorcycle">
+                  <label class="form-check-label" for="motorcycle">Motorcycle</label>
                 </div>
 
         </div>
@@ -1230,138 +762,55 @@ unset($_SESSION['update_message']);
   <hr>
   <p><strong>SCHOOL WORK AND PROGRESS RECORD</strong></p>
   
-                          <h6>Kindergarten </h6>
-                          <div class="row">
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Name of School (List all schools attended for every level)</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-                              
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Address of School</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
+  <div id="education-container"></div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const educationLevels = ["Kindergarten", "Elementary", "Junior High School", "Senior High School"];
+    let container = document.getElementById("education-container");
 
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Honors/Awards Received</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
+    educationLevels.forEach((level, index) => {
+        let levelNumber = index + 1;
+        container.innerHTML += `
+            <h6>${level}</h6>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label>Name of School (List all schools attended for every level)</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="school${levelNumber}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label>Address of School</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="school${levelNumber}address">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label>Honors/Awards Received</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" name="school${levelNumber}awards">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+});
+</script>
 
-
-
-                              <h6>Elementary</h6>
-             
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Name of School (List all schools attended for every level)</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-                              
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Address of School</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Honors/Awards Received</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                          <h6>Junior High School</h6>
-                          
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Name of School (List all schools attended for every level)</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-                              
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Address of School</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Honors/Awards Received</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              
-                          <h6>Senior High School</h6>
-                 
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Name of School (List all schools attended for every level)</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-                              
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Address of School</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                              <div class="col-md-12">
-                                    <div class="form-group row">
-                                          <label for="">Honors/Awards Received</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
 
                   <hr>
                               <div class="col-md-3">
                                     <div class="form-group row">
                                           <label for="">Have you ever repeated a grade?</label>
                                             <div class="co-sm-12">
-                                            <select class="form-select" id="edu1" >                                           
+                                            <select class="form-select" id="repeat_grade" name="repeat_grade" >                                           
                                                  <option value="Yes">Yes</option>
                                                  <option value="No">No</option>
                                              </select>
@@ -1374,7 +823,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">If yes, which grade and why? </label>
                                             <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
+                                                <input type="text" class="form-control" id="repeat_why" name="repeat_why">
                                             </div>
                                     </div>
                               </div>
@@ -1385,7 +834,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">Have you failed in any subjects?</label>
                                             <div class="co-sm-12">
-                                            <select class="form-select" id="edu1" >                                           
+                                            <select class="form-select" id="failed_subject"  name="failed_subject" >                                           
                                                  <option value="Yes">Yes</option>
                                                  <option value="No">No</option>
                                              </select>
@@ -1398,7 +847,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">If yes, list them</label>
                                             <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
+                                                <input type="text" class="form-control" id="listfailed" name="listfailed">
                                             </div>
                                     </div>
                               </div>
@@ -1408,7 +857,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">What subjects in Elem & HS take most of your time ?</label>
                                             <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
+                                                <input type="text" class="form-control" id="taketimesub" name="taketimesub">
                                             </div>
                                     </div>
                               </div>
@@ -1419,7 +868,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">Do you find school work difficult? </label>
                                             <div class="co-sm-12">
-                                            <select class="form-select" id="edu1" >                                           
+                                            <select class="form-select" id="difficultinschool" name="difficultinschool">                                           
                                                  <option value="Yes">Yes</option>
                                                  <option value="No">No</option>
                                              </select>
@@ -1432,7 +881,7 @@ unset($_SESSION['update_message']);
                                     <div class="form-group row">
                                           <label for="">Why?</label>
                                             <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
+                                                <input type="text" class="form-control" id="difficultinschoolwhy" name="difficultinschoolwhy">
                                             </div>
                                     </div>
                               </div>
@@ -1485,7 +934,7 @@ unset($_SESSION['update_message']);
                                   <label for="">1.	Work Experience:  What work of occupational significance have you done at home or other people during 
                                  school year and vacations?</label>
                                     <div class="co-sm-12">
-                                        <input type="text" class="form-control" id="household1fname" name="household1fname">
+                                        <input type="text" class="form-control" id="wordkexperience" name="wordkexperience">
                                     </div>
                                </div>
                         </div>
@@ -1495,7 +944,7 @@ unset($_SESSION['update_message']);
                               <div class="form-group row">
                                 <label for="firstName" class="col-sm-5 col-form-label">2.	Employment Record:  Have you held any job?</label>
                                 <div class="col-sm-3">
-                                  <select class="form-select" id="edu1" >                                           
+                                  <select class="form-select" id="employmentrecord" name="employmentrecord" >                                           
                                                  <option value="Yes">Yes</option>
                                                  <option value="No">No</option>
                                     </select>
@@ -1509,7 +958,7 @@ unset($_SESSION['update_message']);
                               <div class="form-group row">
                                 <label for="firstName" class="col-sm-5 col-form-label">If yes, are you receiving the basic benefits and privileges?</label>
                                 <div class="col-sm-3">
-                                  <select class="form-select" id="edu1" >                                           
+                                  <select class="form-select" id="basic_benefits"  name="basic_benefits">                                           
                                                  <option value="Yes">Yes</option>
                                                  <option value="No">No</option>
                                     </select>
@@ -1521,407 +970,226 @@ unset($_SESSION['update_message']);
 
 
                             
-                          <h6>Employment (1)</h6>
-                   
-                              <div class="col-md-3">
-                                    <div class="form-group row">
-                                          <label for="">Date of Employment</label>
-                                            <div class="co-sm-12">
-                                                <input type="date" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-                              
-                              <div class="col-md-9">
-                                    <div class="form-group row">
-                                          <label for="">Name of Employer, Company and Business Address</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
+                            <div id="employment-container"></div>
 
+                                          <script>
+                                          document.addEventListener("DOMContentLoaded", function () {
+                                              const numEmployments = 3; // Adjust this number if needed
+                                              let container = document.getElementById("employment-container");
 
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Place of Employment</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                    <div class="form-group row">
-                                          <label for="">Job Description</label>
-                                            <div class="co-sm-12">
-                                                <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                            </div>
-                                    </div>
-                              </div>
-
-
-                                 
-                          <h6>Employment (2)</h6>
-                   
-                   <div class="col-md-3">
-                         <div class="form-group row">
-                               <label for="">Date of Employment</label>
-                                 <div class="co-sm-12">
-                                     <input type="date" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-                   
-                   <div class="col-md-9">
-                         <div class="form-group row">
-                               <label for="">Name of Employer, Company and Business Address</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-
-
-                   <div class="col-md-6">
-                         <div class="form-group row">
-                               <label for="">Place of Employment</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-
-                   <div class="col-md-6">
-                         <div class="form-group row">
-                               <label for="">Job Description</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-
-
-                      
-                   <h6>Employment (3)</h6>
-                   
-                   <div class="col-md-3">
-                         <div class="form-group row">
-                               <label for="">Date of Employment</label>
-                                 <div class="co-sm-12">
-                                     <input type="date" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-                   
-                   <div class="col-md-9">
-                         <div class="form-group row">
-                               <label for="">Name of Employer, Company and Business Address</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-
-
-                   <div class="col-md-6">
-                         <div class="form-group row">
-                               <label for="">Place of Employment</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
-
-                   <div class="col-md-6">
-                         <div class="form-group row">
-                               <label for="">Job Description</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+                                              for (let i = 1; i <= numEmployments; i++) {
+                                                  container.innerHTML += `
+                                                      <h6>Employment (${i})</h6>
+                                                      <div class="row">
+                                                          <div class="col-md-3">
+                                                              <div class="form-group row">
+                                                                  <label>Date of Employment</label>
+                                                                  <div class="col-sm-12">
+                                                                      <input type="date" class="form-control" name="employment${i}_date">
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-md-9">
+                                                              <div class="form-group row">
+                                                                  <label>Name of Employer, Company, and Business Address</label>
+                                                                  <div class="col-sm-12">
+                                                                      <input type="text" class="form-control" name="employment${i}_company">
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-md-6">
+                                                              <div class="form-group row">
+                                                                  <label>Place of Employment</label>
+                                                                  <div class="col-sm-12">
+                                                                      <input type="text" class="form-control" name="employment${i}_place">
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-md-6">
+                                                              <div class="form-group row">
+                                                                  <label>Job Description</label>
+                                                                  <div class="col-sm-12">
+                                                                      <input type="text" class="form-control" name="employment${i}_job">
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  `;
+                                              }
+                                          });
+                                          </script>
 
 
 
 
                                  
                    <p><strong>VOCATIONAL OUTLOOK</strong></p>
-                   <div class="col-md-12">
-                         <div class="form-group row">
-                               <label for="">a. What kind of vocation or employment do you like to go into?</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+                  <div class="col-md-12">
+    <div class="form-group row">
+        <label for="preferred_vocation">a. What kind of vocation or employment do you like to go into?</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="preferred_vocation" name="preferred_vocation">
+        </div>
+    </div>
+</div>
 
-                   <div class="col-md-12">
-                         <div class="form-group row">
-                               <label for="">b. How would you prepare for it?</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+<div class="col-md-12">
+    <div class="form-group row">
+        <label for="preparation_for_vocation">b. How would you prepare for it?</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="preparation_for_vocation" name="preparation_for_vocation">
+        </div>
+    </div>
+</div>
 
-                   <div class="col-md-12">
-                         <div class="form-group row">
-                               <label for="">c. What kind of job would you prefer? </label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+<div class="col-md-12">
+    <div class="form-group row">
+        <label for="preferred_job">c. What kind of job would you prefer?</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="preferred_job" name="preferred_job">
+        </div>
+    </div>
+</div>
 
-                   <div class="col-md-12">
-                         <div class="form-group row">
-                               <label for="">d.	What are your plans after College?</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+<div class="col-md-12">
+    <div class="form-group row">
+        <label for="plans_after_college">d. What are your plans after College?</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="plans_after_college" name="plans_after_college">
+        </div>
+    </div>
+</div>
 
-                   <p><strong>GENERAL PERSONALITY MAKE-UP</strong></p>
+<p><strong>GENERAL PERSONALITY MAKE-UP</strong></p>
 
-                   <div class="col-md-12">
-                         <div class="form-group row">
-                               <label for="">Words which you feel describe your general personality make-up</label>
-                                 <div class="co-sm-12">
-                                     <input type="text" class="form-control" id="household1fname" name="household1fname">
-                                 </div>
-                         </div>
-                   </div>
+<div class="col-md-12">
+    <div class="form-group row">
+        <label for="personality_traits">Words which you feel describe your general personality make-up</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" id="personality_traits" name="personality_traits">
+        </div>
+    </div>
+</div>
 
                   </div>
 
                       </div>
 
                       <p><strong>Rate yourself on the following areas by marking a check.</strong></p>
-      <div class="row">
+                      <div class="row">
+    <div class="col-md-12">
+        <div class="form-group row">
+            <h6>Grooming</h6>
+            <div class="col-sm-12 d-flex flex-wrap gap-5">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="grooming-excellent" name="grooming" value="excellent">
+                    <label class="form-check-label" for="grooming-excellent">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="grooming-good" name="grooming" value="good">
+                    <label class="form-check-label" for="grooming-good">Good</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="grooming-fair" name="grooming" value="fair">
+                    <label class="form-check-label" for="grooming-fair">Fair</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="grooming-poor" name="grooming" value="poor">
+                    <label class="form-check-label" for="grooming-poor">Poor</label>
+                </div>
+            </div>
+        </div>
         
-      <div class="col-md-12">
-      <div class="form-group row">
-                              <h6>Grooming</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
+        <div class="form-group row">
+            <h6>Posture</h6>
+            <div class="col-sm-12 d-flex flex-wrap gap-5">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="posture-excellent" name="posture" value="excellent">
+                    <label class="form-check-label" for="posture-excellent">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="posture-good" name="posture" value="good">
+                    <label class="form-check-label" for="posture-good">Good</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="posture-fair" name="posture" value="fair">
+                    <label class="form-check-label" for="posture-fair">Fair</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="posture-poor" name="posture" value="poor">
+                    <label class="form-check-label" for="posture-poor">Poor</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <h6>Seriousness of Purpose</h6>
+            <div class="col-sm-12 d-flex flex-wrap gap-5">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="seriousness-excellent" name="seriousness" value="excellent">
+                    <label class="form-check-label" for="seriousness-excellent">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="seriousness-good" name="seriousness" value="good">
+                    <label class="form-check-label" for="seriousness-good">Good</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="seriousness-fair" name="seriousness" value="fair">
+                    <label class="form-check-label" for="seriousness-fair">Fair</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="seriousness-poor" name="seriousness" value="poor">
+                    <label class="form-check-label" for="seriousness-poor">Poor</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <h6>Academic Ability</h6>
+            <div class="col-sm-12 d-flex flex-wrap gap-5">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-ability-excellent" name="academic_ability" value="excellent">
+                    <label class="form-check-label" for="academic-ability-excellent">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-ability-good" name="academic_ability" value="good">
+                    <label class="form-check-label" for="academic-ability-good">Good</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-ability-fair" name="academic_ability" value="fair">
+                    <label class="form-check-label" for="academic-ability-fair">Fair</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-ability-poor" name="academic_ability" value="poor">
+                    <label class="form-check-label" for="academic-ability-poor">Poor</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <h6>Academic Achievement</h6>
+            <div class="col-sm-12 d-flex flex-wrap gap-5">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-achievement-excellent" name="academic_achievement" value="excellent">
+                    <label class="form-check-label" for="academic-achievement-excellent">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-achievement-good" name="academic_achievement" value="good">
+                    <label class="form-check-label" for="academic-achievement-good">Good</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-achievement-fair" name="academic_achievement" value="fair">
+                    <label class="form-check-label" for="academic-achievement-fair">Fair</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="academic-achievement-poor" name="academic_achievement" value="poor">
+                    <label class="form-check-label" for="academic-achievement-poor">Poor</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                                </div>
-
-
-
-                                <h6>Posture</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                                </div>
-
-
-                                <h6>Health</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                                </div>
-
-
-                                <h6>Manners</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                                </div>
-                                
-
-                                <h6>Conversational Ability</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                                     <div class="form-check">
-                                       <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                       <label class="form-check-label" for="both-parents">Excellent</label>
-                                     </div>
-                                     <div class="form-check">
-                                       <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                       <label class="form-check-label" for="father">Good</label>
-                                     </div>
-                                     <div class="form-check">
-                                       <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                       <label class="form-check-label" for="mother">Fair</label>
-                                     </div>
-
-                                      <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                        <label class="form-check-label" for="mother">Poor</label>
-                                      </div>
-
-                                </div>
-
-
-
-                                <h6>Concern for others</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                              </div>
-
-
-                              <h6>Seriousness of purpose</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                              </div>
-                              
-
-                              <h6>Academic ability</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                              </div>
-
-                              <h6>Academic Achievement</h6>
-                              <div class="col-sm-12 d-flex flex-wrap gap-5">
-                               <!-- Radio buttons for marital status -->
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="both-parents" name="live_present" value="both-parents">
-                                 <label class="form-check-label" for="both-parents">Excellent</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="father" name="live_present" value="father">
-                                 <label class="form-check-label" for="father">Good</label>
-                               </div>
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Fair</label>
-                               </div>
-
-                               <div class="form-check">
-                                 <input type="radio" class="form-check-input" id="mother" name="live_present" value="mother">
-                                 <label class="form-check-label" for="mother">Poor</label>
-                               </div>
-
-                   
-
-
-
-      </div>
 <hr>
 
 <p><strong>EMERGENCY CONTACT INFORMATION</strong></p>
@@ -1932,7 +1200,7 @@ unset($_SESSION['update_message']);
       <div class="form-group row">
           <label for="relationship">Relationship</label>
           <div class="col-sm-9">
-              <input type="text" class="form-control" id="relationship" >
+              <input type="text" class="form-control" id="emergency_relationship" name="emergency_relationship" >
           </div>
       </div>
   </div>
@@ -2028,27 +1296,34 @@ unset($_SESSION['update_message']);
   <?php endif; ?>
 
 
-//   window.onload = function() {
-//     generatepatientId();
-// };
+  function calculateAge() {
+  const dobInput = document.getElementById("dob");
+  const ageInput = document.getElementById("age");
+
+  if (!dobInput || !dobInput.value) return; // Ensure dobInput exists and has a value
+
+  const dob = new Date(dobInput.value);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+
+  // Adjust age if the birthday hasn't occurred yet this year
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+
+  ageInput.value = age >= 0 ? age : ""; // Ensure no negative age
+}
+
+// Calculate age when the page loads (DOB is already fetched)
+window.addEventListener("DOMContentLoaded", function () {
+  setTimeout(calculateAge, 500); // Small delay to ensure the DOM is fully loaded
+});
+
 
 
 
 window.onload = function() {
-
-
-
-
-  // // Toggle Password Visibility
-  // const togglePassword = document.querySelector('#togglePassword');
-  // const password = document.querySelector('#password');
-  
-  // togglePassword.addEventListener('click', function () {
-  //   const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-  //   password.setAttribute('type', type);
-  //   this.textContent = type === 'password' ? 'Show Password' : 'Hide Password';
-  // });
-
 
   fetchPatientProfile();
 };
