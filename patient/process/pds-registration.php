@@ -26,9 +26,9 @@ $sql_student = "INSERT INTO pds_table (
 // Prepare the statement
 $stmt = $conn->prepare($sql_student);
 
-// Bind parameters correctly
+
 $stmt->bind_param(
-    "iisssssssssssssssssssssssssssssssssssssssssss",
+    "iissssssssssssssssssssssssssssssssssssssssss", // 44 placeholders (fixed)
     $patient_id,
     $_POST['age'],
     $_POST['birthaddress'],
@@ -75,6 +75,7 @@ $stmt->bind_param(
     $_POST['emergency_contact'],
     $_POST['emergency_address']
 );
+
 if ($stmt->execute()) {
     $last_insert_id = $conn->insert_id;
 
