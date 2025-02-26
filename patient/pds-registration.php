@@ -1210,7 +1210,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="form-group row">
           <label for="emergency-contact">Contact Numbers</label>
           <div class="col-sm-9">
-              <input type="text" class="form-control" id="emergency-contact">
+              <input type="text" class="form-control" id="emergency-contact" name="emergency-contact">
           </div>
       </div>
   </div>
@@ -1220,7 +1220,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="form-group row">
           <label for="emergency-address">Complete Address</label>
           <div class="col-sm-9">
-              <input type="text" class="form-control" id="emergency-address">
+              <input type="text" class="form-control" id="emergency-address" name="emergency-address">
           </div>
       </div>
   </div>
