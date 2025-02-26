@@ -12,24 +12,69 @@ function sanitize_input($data) {
 
 // Get patient ID
 $patient_id = isset($_POST['patientId']) ? sanitize_input($_POST['patientId']) : "N/A";
-
 // Prepare the SQL statement with all column names
 $sql_student = "INSERT INTO pds_table (
-    student_id, age, birth_address, civil_status,solo_parent_children) VALUES (?, ?, ?, ?, ?)";
+    student_id, age, birth_address, civil_status, solo_parent_children, religion, tribe, language_spoken, ip_belongin, 
+    birth_order, stay_in_gensan, landlord_name, landlord_number, marital_status, live_present, wife_firstname, wife_lastname, 
+    wife_age, wife_occupation, wife_educ, family_income, family_transpo, repeat_grade, repeat_why, failed_subject, listfailed, 
+    taketimesub, difficultinschool, difficultinschoolwhy, school_activities, work_experience, employmentrecord, basic_benefits, 
+    preferred_vocation, preferred_job, plans_after_college, personality_traits, grooming, posture, seriousness, 
+    academic_ability, academic_achievement, emergency_relationship, emergency_contact, emergency_address
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql_student);
 
-
+// Corrected bind_param()
 $stmt->bind_param(
-    "iisss", // 44 placeholders (fixed)
+    "iisssssssssssssssisissssssssssssssssssssss", // 44 placeholders matching data types
     $patient_id,
     $_POST['age'],
-    $_POST['birthaddress'],
+    $_POST['birth_address'],
     $_POST['civil_status'],
-    $_POST['solo_parent_children']
-  
+    $_POST['solo_parent_children'],
+    $_POST['religion'],
+    $_POST['tribe'], // ✅ Added missing tribe
+    $_POST['language_spoken'],
+    $_POST['ip_belongin'],
+    $_POST['birth_order'],
+    $_POST['stay_in_gensan'],
+    $_POST['landlord_name'],
+    $_POST['landlord_number'],
+    $_POST['marital_status'],
+    $_POST['live_present'],
+    $_POST['wife_firstname'],
+    $_POST['wife_lastname'],
+    $_POST['wife_age'], // ✅ `i` (integer) for age
+    $_POST['wife_occupation'],
+    $_POST['wife_educ'],
+    $_POST['family_income'],
+    $_POST['family_transpo'],
+    $_POST['repeat_grade'],
+    $_POST['repeat_why'],
+    $_POST['failed_subject'],
+    $_POST['listfailed'],
+    $_POST['taketimesub'],
+    $_POST['difficultinschool'],
+    $_POST['difficultinschoolwhy'],
+    $_POST['school_activities'],
+    $_POST['work_experience'],
+    $_POST['employmentrecord'],
+    $_POST['basic_benefits'],
+    $_POST['preferred_vocation'],
+    $_POST['preferred_job'],
+    $_POST['plans_after_college'],
+    $_POST['personality_traits'],
+    $_POST['grooming'],
+    $_POST['posture'],
+    $_POST['seriousness'],
+    $_POST['academic_ability'],
+    $_POST['academic_achievement'],
+    $_POST['emergency_relationship'],
+    $_POST['emergency_contact'],
+    $_POST['emergency_address']
 );
+
 
 if ($stmt->execute()) {
     $last_insert_id = $conn->insert_id;
