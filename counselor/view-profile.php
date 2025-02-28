@@ -11,7 +11,7 @@ if ($patientId) {
             pt.*,pds.*
             
         FROM patient_table AS pt
-        LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.Patient_Id
+        LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.student_id
         WHERE pt.Patient_Id = ?
     ";
     $stmt = $conn->prepare($sql);

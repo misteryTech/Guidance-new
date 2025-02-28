@@ -67,7 +67,7 @@ include("sidebar.php");
                                 pt.Username
 
                             FROM patient_table AS pt
-                            LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.Patient_Id
+                            LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.student_id
                             WHERE pt.Archive = 'No'
                         ";
                             $result = $conn->query($sql);
