@@ -81,15 +81,13 @@ $conn->close();
                         <label for="identifier">Student ID or Username</label>
                     </div>
                     <div class="inputbox">
-                        <input type="password" id="password" name="password" required placeholder=" " />
+                        <input type="password" id="myInput" name="password" required placeholder=" " />
                         <label for="password">Password</label>
                     </div>
-                    <div class="forget">
-                        <label>
-                            <input type="checkbox" />
-                            Remember me - Forgot your <a href="#">Password?</a>
-                        </label>
-                    </div>
+
+                    <input type="checkbox" onclick="myFunction()">Show Password
+                    <br>
+                
                     <button type="submit">Login</button>
                     <!-- <div class="register">
                         <p>Don't have an account? <a href="register.php">Register here</a></p>
@@ -102,5 +100,17 @@ $conn->close();
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="front/assets/bootstrap/js/bootstrap.min.js"></script>
+    
+<script>
+function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+
 </body>
 </html>
