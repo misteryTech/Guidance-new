@@ -243,6 +243,7 @@ if ($patientId) {
 
                         
                                      <hr>
+                                     <h1>Family History</h1>
                                      <h4>Father Details</h4>
 
                     <?php
@@ -264,11 +265,17 @@ if ($patientId) {
                                 <p><strong>Fullname:</strong> <?= htmlspecialchars($father['firstname'] . " " . $father['lastname']); ?></p>
                                 <p><strong>Email:</strong> <?= htmlspecialchars($father['email']); ?></p>
                                 <p><strong>Mobile No.:</strong> <?= htmlspecialchars($father['cellphone']); ?></p>
+                                <p><strong>School Attain:</strong> <?= htmlspecialchars($father['schoolattain']); ?></p>
+                                <p><strong>Occupation:</strong> <?= htmlspecialchars($father['occupation']); ?></p>
+                                
                             </div>
                             <div class="col-md-6">
                                 <p><strong>Religion:</strong> <?= htmlspecialchars($father['religion']); ?></p>
                                 <p><strong>Tribe:</strong> <?= htmlspecialchars($father['tribe']); ?></p>
                                 <p><strong>Language Spoken:</strong> <?= htmlspecialchars($father['language']); ?></p>
+                                <p><strong>Business Address:</strong> <?= htmlspecialchars($father['business']); ?></p>
+                                <p><strong>position:</strong> <?= htmlspecialchars($father['position']); ?></p>
+                               
                             </div>
                         </div>
                     <?php
@@ -295,11 +302,15 @@ if ($patientId) {
                                 <p><strong>Fullname:</strong> <?= htmlspecialchars($mother['firstname'] . " " . $mother['lastname']); ?></p>
                                 <p><strong>Email:</strong> <?= htmlspecialchars($mother['email']); ?></p>
                                 <p><strong>Mobile No.:</strong> <?= htmlspecialchars($mother['cellphone']); ?></p>
+                                <p><strong>School Attain:</strong> <?= htmlspecialchars($mother['schoolattain']); ?></p>
+                                <p><strong>Occupation:</strong> <?= htmlspecialchars($mother['occupation']); ?></p>
                             </div>
                             <div class="col-md-6">
                                 <p><strong>Religion:</strong> <?= htmlspecialchars($mother['religion']); ?></p>
                                 <p><strong>Tribe:</strong> <?= htmlspecialchars($mother['tribe']); ?></p>
                                 <p><strong>Language Spoken:</strong> <?= htmlspecialchars($mother['language']); ?></p>
+                                <p><strong>Business Address:</strong> <?= htmlspecialchars($mother['business']); ?></p>
+                                <p><strong>position:</strong> <?= htmlspecialchars($mother['position']); ?></p>
                             </div>
                         </div>
                     <?php
@@ -322,8 +333,417 @@ if ($patientId) {
                                                         </div>
                                                 </div>
 
+                                      
+
+                                                <div class="row">
+                                                        <div class="col-md-6">
+                                                        <p><strong>What is the combined monthly income of your family?</strong> <?= htmlspecialchars($patient['family_income']); ?></p>
+                                                        <p><strong>Transportation your family owns:</strong> <?= htmlspecialchars($patient['family_transpo']); ?></p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                        <p><strong>Means of transportation going to school:</strong> <?= htmlspecialchars($patient['family_transpo']); ?></p>
+                                                        </div>
+                                                </div>
+
+                 <h1>Household</h1>
+
+<?php
+
+
+// Fetch all household members associated with the student ID
+$sql_household = "SELECT * FROM household_members WHERE student_id = ?";
+$stmt = $conn->prepare($sql_household);
+$stmt->bind_param("i", $student_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$household_members = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
+<?php if (!empty($household_members)) : ?>
+    <?php foreach ($household_members as $household) : ?>
+        <h4><?= htmlspecialchars($household['relationship']) ?> Details</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Full Name:</strong> <?= htmlspecialchars($household['firstname'] . " " . $household['lastname']); ?></p>
+                <p><strong>Gender:</strong> <?= htmlspecialchars($household['sex']); ?></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Civil Status:</strong> <?= htmlspecialchars($household['civil_status']); ?></p>
+                <p><strong>Relationship:</strong> <?= htmlspecialchars($household['relationship']); ?></p>
+            </div>
+        </div>
+        <hr>
+    <?php endforeach; ?>
+<?php else : ?>
+    <p>No household details found.</p>
+<?php endif; ?>
+
+
+
+                                                <h1>Socio-Economic Status of the Family</h1>
+                                                <div class="row">
+                                                        <div class="col-md-6">
+                                                        <p><strong>What is the combined monthly income of your family?</strong> <?= htmlspecialchars($patient['family_income']); ?></p>
+                                                        <p><strong>Transportation your family owns:</strong> <?= htmlspecialchars($patient['family_transpo']); ?></p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                        <p><strong>Means of transportation going to school:</strong> <?= htmlspecialchars($patient['family_transpo']); ?></p>
+                                                        </div>
+                                                </div>
 
                                                 
+                                                <h1>School Work & Progress Record</h1>
+                    <?php
+                                                // Fetch father’s details
+                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $sql_kinder = "SELECT * FROM education WHERE student_id = ? AND level = 'Kindergarten'";
+                    $stmt = $conn->prepare($sql_kinder);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $kinder = $result->fetch_assoc();
+
+                    if ($kinder) {
+                    ?>
+                         <h3>Kindergarten</h3>
+                        <div class="row">
+                       
+                            <div class="col-md-6">
+                            
+                                <p><strong>School Name:</strong> <?= htmlspecialchars($kinder['school_name']); ?></p>
+                        
+                                
+                            </div>
+                            <div class="col-md-6">
+                               <p><strong>School Address:</strong> <?= htmlspecialchars($kinder['school_address']); ?></p>    
+                           
+                            </div>
+
+                            <div class="col-md-12">
+                            <p><strong>School Address:</strong> <?= htmlspecialchars($kinder['awards']); ?></p>    
+                            </div>
+                        </div>
+                    <?php
+
+
+                    } else {
+                        echo "<p>Kindergarten details not found.</p>";
+                    }
+
+
+                    ?>
+
+
+
+
+<?php
+                                                // Fetch father’s details
+                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $sql_elementary = "SELECT * FROM education WHERE student_id = ? AND level = 'Elementary'";
+                    $stmt = $conn->prepare($sql_elementary);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $elementary = $result->fetch_assoc();
+
+                    if ($elementary) {
+                    ?>
+                         <h3>Elementary</h3>
+                        <div class="row">
+                       
+                            <div class="col-md-6">
+                            
+                                <p><strong>School Name:</strong> <?= htmlspecialchars($elementary['school_name']); ?></p>
+                        
+                                
+                            </div>
+                            <div class="col-md-6">
+                               <p><strong>School Address:</strong> <?= htmlspecialchars($elementary['school_address']); ?></p>    
+                           
+                            </div>
+
+                            <div class="col-md-12">
+                            <p><strong>School Address:</strong> <?= htmlspecialchars($elementary['awards']); ?></p>    
+                            </div>
+                        </div>
+                    <?php
+
+
+                    } else {
+                        echo "<p>Father's details not found.</p>";
+                    }
+
+
+                    ?>
+
+
+
+
+
+<?php
+                                                // Fetch father’s details
+                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $sql_jhs = "SELECT * FROM education WHERE student_id = ? AND level = 'Junior High School'";
+                    $stmt = $conn->prepare($sql_jhs);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $jhs = $result->fetch_assoc();
+
+                    if ($jhs) {
+                    ?>
+                         <h3>Junior High School</h3>
+                        <div class="row">
+                       
+                            <div class="col-md-6">
+                            
+                                <p><strong>School Name:</strong> <?= htmlspecialchars($jhs['school_name']); ?></p>
+                        
+                                
+                            </div>
+                            <div class="col-md-6">
+                               <p><strong>School Address:</strong> <?= htmlspecialchars($jhs['school_address']); ?></p>    
+                           
+                            </div>
+
+                            <div class="col-md-12">
+                            <p><strong>School Address:</strong> <?= htmlspecialchars($jhs['awards']); ?></p>    
+                            </div>
+                        </div>
+                    <?php
+
+
+                    } else {
+                        echo "<p>Junior high School details not found.</p>";
+                    }
+
+
+                    ?>
+
+
+
+
+
+
+
+
+
+<?php
+                                                // Fetch father’s details
+                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $sql_shs = "SELECT * FROM education WHERE student_id = ? AND level = 'Senior High School'";
+                    $stmt = $conn->prepare($sql_shs);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $shs = $result->fetch_assoc();
+
+                    if ($shs) {
+                    ?>
+                         <h3>Junior High School</h3>
+                        <div class="row">
+                       
+                            <div class="col-md-6">
+                            
+                                <p><strong>School Name:</strong> <?= htmlspecialchars($shs['school_name']); ?></p>
+                        
+                                
+                            </div>
+                            <div class="col-md-6">
+                               <p><strong>School Address:</strong> <?= htmlspecialchars($shs['school_address']); ?></p>    
+                           
+                            </div>
+
+                            <div class="col-md-12">
+                            <p><strong>School Address:</strong> <?= htmlspecialchars($shs['awards']); ?></p>    
+                            </div>
+                        </div>
+                    <?php
+
+
+                    } else {
+                        echo "<p>Senior high School details not found.</p>";
+                    }
+
+
+                    ?>
+
+
+
+                                     <br>
+                                     <div class="row">
+                                         <div class="col-md-6">
+
+                                             <p><strong>Have you ever repeated a grade?</strong> <?= htmlspecialchars($patient['repeat_grade']); ?></p>
+                                             <p><strong>Have you failed in any subjects?</strong> <?= htmlspecialchars($patient['failed_subject']); ?></p>
+                                             <p><strong>What subjects in Elem & HS take most of your time ?</strong> <?= htmlspecialchars($patient['taketimesub']); ?></p>
+                                             
+                                             <p><strong>Do you find school work difficult?</strong> <?= htmlspecialchars($patient['difficultinschool']); ?></p>
+                            
+                                         </div>
+
+                                         <div class="col-md-6">
+
+                                             <p><strong>Why?</strong> <?= htmlspecialchars($patient['repeat_why']); ?></p>
+                                             <p><strong>List Failed Items</strong> <?= htmlspecialchars($patient['listfailed']); ?></p>
+                                             <p><strong>What subjects in Elem & HS take least of your time?</strong> <?= htmlspecialchars($patient['listfailed']); ?></p>
+                                             <br>
+                                             <p><strong>Why?</strong> <?= htmlspecialchars($patient['difficultinschoolwhy']); ?></p>
+
+                                         </div>
+                                     </div>
+
+
+
+                                     
+
+                                     <br>
+
+                      
+                                     <h3>Hobbies, Interest and Vocational Record</h3>
+                                     <div class="row">
+                                         <div class="col-md-6">
+
+                                             <p><strong>What school activities are you interested: </strong> <?= htmlspecialchars($patient['school_activities']); ?></p>
+                                         
+                                         </div>
+
+                                         <div class="col-md-6">
+                                         </div>
+                                     </div>
+
+
+
+
+                                     <h3>Vocational Record</h3>
+                                     <div class="row">
+                                         <div class="col-md-12">
+
+                                             <p><strong>Work Experience</strong> <?= htmlspecialchars($patient['work_experience']); ?></p>
+                                         
+                                         </div>
+
+
+                                     </div>
+
+                                     <div class="row">
+                                        
+                                     <div class="col-md-6">
+                                         <p><strong>Employment Record: </strong> <?= htmlspecialchars($patient['employmentrecord']); ?></p>
+                                         </div>
+                                         
+                                         <div class="col-md-6">
+                                         <p><strong>Basic Benefits:</strong> <?= htmlspecialchars($patient['basic_benefits']); ?></p>
+                                         </div>
+
+                                     </div>
+
+
+
+                                <?php
+                                                                     // Fetch all household members associated with the student ID
+                                $sql_employment = "SELECT * FROM employment WHERE student_id = ?";
+                                $stmt = $conn->prepare($sql_employment);
+                                $stmt->bind_param("i", $student_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $employment_list = $result->fetch_all(MYSQLI_ASSOC);
+                                ?>
+
+                                <?php if (!empty($employment_list)) : ?>
+                                    <?php foreach ($employment_list as $employment) : ?>
+                         
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                           
+                                                <p><strong>Date Employment:</strong> <?= htmlspecialchars($employment['employment_date']); ?></p>
+                                                <p><strong>Employment Place:</strong> <?= htmlspecialchars($employment['employment_place']); ?></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Company Name</strong> <?= htmlspecialchars($employment['company_name']); ?></p>
+                                                <p><strong>Job Description:</strong> <?= htmlspecialchars($employment['job_description']); ?></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <p>No Employment Record found.</p>
+                                <?php endif; ?>
+
+
+
+                                         <div class="row">
+                                        
+                                              <div class="col-md-6">
+                                            <p><strong>Preferred Vocation </strong> <?= htmlspecialchars($patient['preferred_vocation']); ?></p>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                            <p><strong>Preferred Job:</strong> <?= htmlspecialchars($patient['preferred_job']); ?></p>
+                                            </div>
+   
+                                        </div>
+   
+                                        <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                      <p><strong>What are your plans after College?</strong> <?= htmlspecialchars($patient['plans_after_college']); ?></p>
+                                      </div>
+                               
+                                  </div>
+
+                                  <div class="row">
+                                     
+                                      <div class="col-md-12">
+                                      <p><strong>Personal Traits</strong> <?= htmlspecialchars($patient['personality_traits']); ?></p>
+                                      </div>
+                                  </div>
+
+
+
+                                  <div class="row">
+                                     
+                                      <div class="col-md-6">
+                                      <p><strong>Grooming</strong> <?= htmlspecialchars($patient['grooming']); ?></p>
+                                      <p><strong>Seriousness</strong> <?= htmlspecialchars($patient['seriousness']); ?></p>
+                                      <p><strong>Academic Achievement</strong> <?= htmlspecialchars($patient['academic_achievement']); ?></p>
+                                      </div>
+
+                                            
+                                      <div class="col-md-6">
+                                      <p><strong>Posture</strong> <?= htmlspecialchars($patient['posture']); ?></p>
+                                      <p><strong>Academic Ability</strong> <?= htmlspecialchars($patient['academic_ability']); ?></p>
+                                      </div>
+
+                                  </div>
+
+                                        <hr>
+                                        <h1>Emergency Contact Information </h1>
+                                  <div class="row">
+
+
+                                    <div class="col-md-6">
+                                      <p><strong>Relationship</strong> <?= htmlspecialchars($patient['emergency_relationship']); ?></p>
+                                      </div>
+
+                                            
+                                      <div class="col-md-6">
+                                      <p><strong>Contact Numbers</strong> <?= htmlspecialchars($patient['emergency_contact']); ?></p>
+                                  
+                                      </div>
+
+                                  </div>
+
+
+                                  <div class="row">
+                                        <div class="col-md-12">
+                                        <p><strong>Complete Address</strong> <?= htmlspecialchars($patient['emergency_address']); ?></p>
+                                        </div>
+                                  </div>
+
+
+
+
                             </div>
 
                        
