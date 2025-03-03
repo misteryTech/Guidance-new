@@ -32,7 +32,7 @@ if ($patientId) {
     exit;
 }
 
-$conn->close();
+
 ?>
 
     
@@ -61,7 +61,7 @@ $conn->close();
     }
     .card {
     width: 8.5in; /* Standard bond paper width */
-    height: 13in; /* Long bond paper height */
+
     margin: auto;
     padding: 20px;
     border: 2px solid #000;
@@ -236,21 +236,99 @@ $conn->close();
                                             <p><strong>Language Spoken:</strong> <?= htmlspecialchars($patient['landlord_name']); ?></p>
 
                                          </div>
+
+
+                                         
                                      </div>
 
-                                     
+                        
+                                     <hr>
+                                     <h4>Father Details</h4>
+
+                    <?php
+                    // Assuming you have a database connection
+              
+                    // Fetch father’s details
+                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $sql_parents = "SELECT * FROM parents_info WHERE student_id = ? AND parent_type = 'father'";
+                    $stmt = $conn->prepare($sql_parents);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $father = $result->fetch_assoc();
+
+                    if ($father) {
+                    ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Fullname:</strong> <?= htmlspecialchars($father['firstname'] . " " . $father['lastname']); ?></p>
+                                <p><strong>Email:</strong> <?= htmlspecialchars($father['email']); ?></p>
+                                <p><strong>Mobile No.:</strong> <?= htmlspecialchars($father['cellphone']); ?></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Religion:</strong> <?= htmlspecialchars($father['religion']); ?></p>
+                                <p><strong>Tribe:</strong> <?= htmlspecialchars($father['tribe']); ?></p>
+                                <p><strong>Language Spoken:</strong> <?= htmlspecialchars($father['language']); ?></p>
+                            </div>
+                        </div>
+                    <?php
+                    } else {
+                        echo "<p>Father's details not found.</p>";
+                    }
+
+                    // Fetch mother’s details
+                    $sql_mother = "SELECT * FROM parents_info WHERE student_id = ? AND parent_type = 'mother'";
+                    $stmt = $conn->prepare($sql_mother);
+                    $stmt->bind_param("i", $student_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $mother = $result->fetch_assoc();
+                    ?>
+
+                    <h4>Mother Details</h4>
+
+                    <?php
+                    if ($mother) {
+                    ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Fullname:</strong> <?= htmlspecialchars($mother['firstname'] . " " . $mother['lastname']); ?></p>
+                                <p><strong>Email:</strong> <?= htmlspecialchars($mother['email']); ?></p>
+                                <p><strong>Mobile No.:</strong> <?= htmlspecialchars($mother['cellphone']); ?></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Religion:</strong> <?= htmlspecialchars($mother['religion']); ?></p>
+                                <p><strong>Tribe:</strong> <?= htmlspecialchars($mother['tribe']); ?></p>
+                                <p><strong>Language Spoken:</strong> <?= htmlspecialchars($mother['language']); ?></p>
+                            </div>
+                        </div>
+                    <?php
+                    } else {
+                        echo "<p>Mother's details not found.</p>";
+                    }
+
+
+                    ?>
 
 
 
-                                     
+                                                <div class="row">
+                                                            <div class="col-md-6">  
+                                                                <p><strong>Parents Marital Status:</strong> <?= htmlspecialchars($patient['marital_status']); ?></p>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                        <p><strong>Where do you live at present?:</strong> <?= htmlspecialchars($patient['live_present']); ?></p>
+                                                        </div>
+                                                </div>
 
 
-
+                                                
                             </div>
 
-                            <hr>
-
                        
+
+                            
                         <?php else: ?>
                             <p class="text-danger text-center">No profile found for this patient.</p>
                         <?php endif; ?>
