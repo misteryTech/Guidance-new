@@ -95,10 +95,10 @@ unset($_SESSION['update_message']);
   </div>
   
   <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
   <div class="form-group row">
-    <label for="firstName" class="col-sm-3 col-form-label">First Name <span class="notification">*</span></label>
-    <div class="col-sm-9">
+    <label for="firstName" class="col-sm-5 col-form-label">First Name <span class="notification">*</span></label>
+    <div class="col-sm-10">
       <input 
         type="text" 
         class="form-control" 
@@ -112,10 +112,27 @@ unset($_SESSION['update_message']);
   </div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-4">
   <div class="form-group row">
-    <label for="lastName" class="col-sm-3 col-form-label">Last Name <span class="notification">*</span></label>
-    <div class="col-sm-9">
+    <label for="firstName" class="col-sm-5 col-form-label">Middle Name <span class="notification">*</span></label>
+    <div class="col-sm-10">
+      <input 
+        type="text" 
+        class="form-control" 
+        id="middleName" 
+        name="middleName" 
+        oninput="validateCharacters(this)" 
+        required 
+      />
+      <p id="middleNameError" style="color: red; display: none;">Middle name must contain characters only.</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4">
+  <div class="form-group row">
+    <label for="lastName" class="col-sm-5 col-form-label">Last Name <span class="notification">*</span></label>
+    <div class="col-sm-10">
       <input 
         type="text" 
         class="form-control" 
@@ -1346,6 +1363,7 @@ function fetchPatientProfile() {
           document.getElementById('patientId').value = response.Patient_Id || '';
           document.getElementById('firstName').value = response.FirstName || '';
           document.getElementById('lastName').value = response.LastName || '';
+          document.getElementById('middleName').value = response.MiddleName || '';
           document.getElementById('address').value = response.Address || '';
           document.getElementById('phone').value = response.PhoneNumber || '';
           document.getElementById('email').value = response.Email || '';

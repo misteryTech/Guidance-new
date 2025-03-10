@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error_message = "Invalid password. Please try again.";
         }
     } else {
-        $error_message = "Invalid Patient ID or Username. Please try again.";
+        $error_message = "Invalid Student ID or Username. Please try again.";
     }
     $stmt->close();
 }
@@ -66,6 +66,12 @@ $conn->close();
     <link rel="stylesheet" href="front/assets/css/Overlay-Login-Form.css">
 </head>
 <body>
+
+<style>
+    .inputbox input {
+        color: #1e1e25;
+    }
+</style>
 <section>
     <div class="section-bg-overlay">
         <div class="form-box">

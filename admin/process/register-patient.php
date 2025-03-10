@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $patientId = $_POST['patientId'];
     $email = $_POST['email'];
     $firstName = $_POST['firstName'];
+    $middleName = $_POST['middleName'];
     $lastName = $_POST['lastName'];
     $gender = $_POST['gender'];
     $dob = $_POST['dob'];
@@ -17,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $archive = "No";
 
     // SQL Query to insert data into the database
-    $sql = "INSERT INTO patient_table (Patient_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
-            VALUES ('$patientId', '$email', '$firstName', '$lastName', '$gender', '$dob', '$address', '$phone', '$username', '$password', '$archive')";
+    $sql = "INSERT INTO patient_table (Patient_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive, MiddleName)
+            VALUES ('$patientId', '$email', '$firstName', '$lastName', '$gender', '$dob', '$address', '$phone', '$username', '$password', '$archive', '$middleName')";
 
     // Check if the query is successful
     if ($conn->query($sql) === TRUE) {
         $_SESSION['registration_status'] = 'success';  // Set session variable for success message
-        $_SESSION['registration_message'] = 'New Patient registered successfully!';  // Success message
+        $_SESSION['registration_message'] = 'New Student registered successfully!';  // Success message
     } else {
         $_SESSION['registration_status'] = 'error';  // Set session variable for error message
         $_SESSION['registration_message'] = 'Error: ' . $conn->error;  // Error message

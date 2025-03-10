@@ -36,5 +36,53 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+    fetch("reports/fetch_appointments.php")
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById("barChart").getContext("2d");
+
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: [
+                        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                    ],
+                    datasets: [{
+                        label: "Total Appointments",
+                        data: data,
+                        backgroundColor: "rgba(54, 162, 235, 0.6)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1, // Ensures only whole numbers appear
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : null;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error("Error fetching data:", error));
+});
+
+
+</script>
+
+
+
   </body>
 </html>

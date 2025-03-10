@@ -11,8 +11,13 @@ if (isset($_SESSION['Admin_Id'])) {
 }
 
 $error_message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include 'connection.php'; // Database connection file
+    include 'connection.php'; // Ensure database connection is included
+
+    if (!$conn) {
+        die("Database connection failed: " . mysqli_connect_error());
+    }
 
     $identifier = trim($_POST['identifier']); // Can be email or username
     $password = trim($_POST['password']);
@@ -20,64 +25,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Determine if the identifier is an email or a username
     if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
         $admin_query = "SELECT Admin_Id, Username, Email, Password FROM admin_table WHERE Email = ?";
-        $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM Counselor_Table WHERE Email = ?";
+        $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM counselor_table WHERE Email = ?";
     } else {
         $admin_query = "SELECT Admin_Id, Username, Email, Password FROM admin_table WHERE Username = ?";
-        $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM Counselor_Table WHERE Username = ?";
+        $counselor_query = "SELECT Counselor_Id, Username, Email, Password FROM counselor_table WHERE Username = ?";
     }
 
-    // Check Admin_Table
-    $stmt = $conn->prepare($admin_query);
-    $stmt->bind_param("s", $identifier);
-    $stmt->execute();
-    $stmt->store_result();
+    // Function to check login credentials
+    function checkLogin($conn, $query, $identifier, &$userData) {
+        $stmt = $conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param("s", $identifier);
+            $stmt->execute();
+            $stmt->store_result();
 
-    if ($stmt->num_rows === 1) {
-        $stmt->bind_result($admin_id, $username, $email, $db_password);
-        $stmt->fetch();
+            if ($stmt->num_rows === 1) {
+                $stmt->bind_result($userData['id'], $userData['username'], $userData['email'], $userData['password']);
+                $stmt->fetch();
+                $stmt->close();
+                return true;
+            }
+            $stmt->close();
+        }
+        return false;
+    }
 
-        // Compare passwords in plain text
-        if ($password === $db_password) {
-            // Set session variables on successful login
-            $_SESSION['Admin_Id'] = $admin_id;
-            $_SESSION['Username'] = $username;
-            $_SESSION['Email'] = $email;
+    $userData = [];
 
-            header("Location: admin/index.php"); // Redirect to the dashboard
+    if (checkLogin($conn, $admin_query, $identifier, $userData)) {
+        if ($password === $userData['password']) {
+            $_SESSION['Admin_Id'] = $userData['id'];
+            $_SESSION['Username'] = $userData['username'];
+            $_SESSION['Email'] = $userData['email'];
+            header("Location: admin/index.php");
             exit();
         }
-    } else {
-        // Check Counselor_Table
-        $stmt->close();
-        $stmt = $conn->prepare($counselor_query);
-        $stmt->bind_param("s", $identifier);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows === 1) {
-            $stmt->bind_result($counselor_id, $username, $email, $db_password);
-            $stmt->fetch();
-
-            // Compare passwords in plain text
-            if ($password === $db_password) {
-                // Set session variables on successful login
-                $_SESSION['Counselor_Id'] = $counselor_id;
-                $_SESSION['Username'] = $username;
-                $_SESSION['Email'] = $email;
-
-                header("Location: counselor/index.php"); // Redirect to the counselor dashboard
-                exit();
-            }
+    } elseif (checkLogin($conn, $counselor_query, $identifier, $userData)) {
+        if ($password === $userData['password']) {
+            $_SESSION['Counselor_Id'] = $userData['id'];
+            $_SESSION['Username'] = $userData['username'];
+            $_SESSION['Email'] = $userData['email'];
+            header("Location: counselor/index.php");
+            exit();
         }
     }
 
-    // If no match found or incorrect password
+    // If login fails
     $error_message = "Invalid credentials. Please try again.";
 
-    $stmt->close();
     $conn->close();
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,11 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <button type="submit" class="btn btn-block btn-gradient-success btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                                 </div>
                                 <div class="my-2 d-flex justify-content-between align-items-center">
-                                    <div class="form-check">
-                                        <label class="form-check-label text-muted">
-                                            <input type="checkbox" class="form-check-input"> Keep me signed in </label>
-                                    </div>
-                                    <a href="#" class="auth-link text-primary">Forgot password?</a>
+                                    
+                                  
                                 </div>
                                 <!-- <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.html" class="text-primary">Create</a>
                                 </div> -->
@@ -144,3 +142,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="assets/js/misc.js"></script>
 </body>
 </html>
+<script>
+function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>

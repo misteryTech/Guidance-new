@@ -57,7 +57,7 @@ include("sidebar.php");
                             include("connection.php");
 
                             // Fetch registered administrators from the database
-                            $sql = "SELECT Admin_Id, FirstName, LastName, Email, Gender, Username FROM Admin_Table WHERE Archive = 'Yes'";
+                            $sql = "SELECT Admin_Id, FirstName, LastName, Email, Gender, Username FROM admin_table WHERE Archive = 'Yes'";
                             $result = $conn->query($sql);
 
                             // Check if there are records

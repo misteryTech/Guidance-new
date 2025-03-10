@@ -20,8 +20,8 @@ include("sidebar.php");
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Student Table</h4>
-                    <p class="card-description"> List of <code>Registered Student</code></p>
+                    <h4 class="card-title">Incident Table</h4>
+                    <p class="card-description"> List of <code>Incident</code></p>
 
                     <?php
                     // Check if there's a session message for registration success or error

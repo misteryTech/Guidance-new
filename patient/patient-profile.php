@@ -48,13 +48,13 @@ unset($_SESSION['update_message']);
 
                     
                     <form class="form-sample" id="counselorRegistration" action="process/update-Patient.php" method="POST">
-  <p class="card-description">Patient Registration Form</p>
+  <p class="card-description">Student Registration Form</p>
   
   <div class="row">
     <!-- Counselor ID -->
     <div class="col-md-6">
          <div class="form-group row">
-    <label for="patientId" class="col-sm-3 col-form-label">Patient ID <span class="notification">*</span></label>
+    <label for="patientId" class="col-sm-3 col-form-label">Student ID <span class="notification">*</span></label>
     <div class="col-sm-9">
       <input 
         type="text" 
@@ -69,15 +69,18 @@ unset($_SESSION['update_message']);
       />
     </div>
   </div>
+
+
+  
 </div>
 
   </div>
   
   <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
   <div class="form-group row">
     <label for="firstName" class="col-sm-3 col-form-label">First Name <span class="notification">*</span></label>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <input 
         type="text" 
         class="form-control" 
@@ -91,10 +94,31 @@ unset($_SESSION['update_message']);
   </div>
 </div>
 
-<div class="col-md-6">
+
+<div class="col-md-4">
+  <div class="form-group row">
+    <label for="firstName" class="col-sm-3 col-form-label">Middle Name <span class="notification">*</span></label>
+    <div class="col-sm-8">
+      <input 
+        type="text" 
+        class="form-control" 
+        id="middleName" 
+        name="middleName" 
+        oninput="validateCharacters(this)" 
+        required 
+      />
+      <p id="firstNameError" style="color: red; display: none;">First name must contain characters only.</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="col-md-4">
   <div class="form-group row">
     <label for="lastName" class="col-sm-3 col-form-label">Last Name <span class="notification">*</span></label>
-    <div class="col-sm-9">
+    <div class="col-sm-8">
       <input 
         type="text" 
         class="form-control" 
@@ -341,6 +365,7 @@ function fetchPatientProfile() {
           document.getElementById('patientId').value = response.Patient_Id || '';
           document.getElementById('firstName').value = response.FirstName || '';
           document.getElementById('lastName').value = response.LastName || '';
+          document.getElementById('middleName').value = response.MiddleName || '';
           document.getElementById('address').value = response.Address || '';
           document.getElementById('phone').value = response.PhoneNumber || '';
           document.getElementById('email').value = response.Email || '';

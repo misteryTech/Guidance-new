@@ -166,7 +166,7 @@ if ($patientId) {
                                     <div class="col-md-6">
                                         <h4 class="mb-3">Personal Details</h4>
                                         <p><strong>Student ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
-                                        <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] . " " . $patient['LastName']); ?></p>
+                                        <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] ." " .   $patient['LastName'] . " " . $patient['LastName']); ?></p>
                                         <p><strong>Date of Birth:</strong> <?= htmlspecialchars($patient['DateOfBirth']); ?></p>
                                         <p><strong>Gender:</strong> <?= htmlspecialchars($patient['Gender']); ?></p>
                                         <p><strong>Birth Address:</strong> <?= htmlspecialchars($patient['birth_address']); ?></p>

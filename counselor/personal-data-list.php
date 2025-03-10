@@ -40,7 +40,7 @@ include("sidebar.php");
                     </div>
                     <?php endif; ?>
 
-                    <table class="table table-striped">
+                    <table  id="studentTable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th> Student ID </th>
@@ -145,4 +145,16 @@ include("sidebar.php");
         var button = event.relatedTarget;
         document.getElementById('archivePatientId').value = button.getAttribute('data-patient-id');
     });
+
+
+    $(document).ready(function () {
+        $('#studentTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true
+        });
+    });
+
+    
 </script>

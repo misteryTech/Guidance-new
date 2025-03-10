@@ -72,7 +72,7 @@ if ($result->num_rows === 1) {
 <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
 <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
 
