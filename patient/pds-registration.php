@@ -218,7 +218,7 @@ unset($_SESSION['update_message']);
                   <label for="phone" class="col-sm-3 col-form-label">Phone Number <span class="notification">*</span></label>
                   <div class="col-sm-9">
                     <input 
-                      type="text" 
+                      type="number" 
                       class="form-control" 
                       id="phone" 
                       name="phone" 
@@ -389,7 +389,7 @@ unset($_SESSION['update_message']);
       <div class="form-group row">
           <label for="">Contact Number:</label>
           <div class="col-sm-9">
-              <input type="text" class="form-control" name="landlord_number" >
+              <input type="number" class="form-control" name="landlord_number" >
           </div>
       </div>
   </div>
@@ -782,7 +782,7 @@ $religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
 
   <hr>
   <p><strong>SCHOOL WORK AND PROGRESS RECORD</strong></p>
-  
+  <h4 class="text-danger">If not type (N/A)</h4>
   <div id="education-container"></div>
 
 <script>
@@ -949,6 +949,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <hr>
                       <p><strong>VOCATIONAL RECORD</strong></p>
+                      <h4 class="text-danger">If not type (N/A)</h4>
                       <div class="row">
                         <div class="col-md-12">
                               <div class="form-group row">
