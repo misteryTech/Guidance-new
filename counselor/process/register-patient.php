@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the query is successful
     if ($conn->query($sql) === TRUE) {
         $_SESSION['registration_status'] = 'success';  // Set session variable for success message
-        $_SESSION['registration_message'] = 'New Patient registered successfully!';  // Success message
+        $_SESSION['registration_message'] = 'New Student registered successfully!';  // Success message
     } else {
         $_SESSION['registration_status'] = 'error';  // Set session variable for error message
         $_SESSION['registration_message'] = 'Error: ' . $conn->error;  // Error message

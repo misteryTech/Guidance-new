@@ -129,7 +129,7 @@
 $query_appointments = "
     SELECT A.*
     FROM 
-        incident_reports AS A
+        appointments AS A WHERE A.Patient_Id = '$Patient_Id '
 
 ";
 
@@ -141,39 +141,75 @@ $result_appointments = mysqli_query($conn, $query_appointments);
     <thead>
         <tr>
               
-            <th>Incident Report</th>
-            <th>Incident Location</th>
-            <th>Date</th>
-            <th>Witnesses</th>
+            <th>Appointment Date</th>
+            <th>Reason Appointment</th>
+            <th>Appointment Type</th>
+            <th>Action</th>
 
            
         
         </tr>
     </thead>
     <tbody>
-        <?php
-        if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
-            // Fetch and display each appointment
-            while ($row = mysqli_fetch_assoc($result_appointments)) {
-                ?>
-                <tr>
-                  
-                    <td><?php echo htmlspecialchars($row['incident_description']); ?></td>
-                    <td><?php echo htmlspecialchars($row['incident_location']); ?></td>
-                 
-                    <td><?php echo htmlspecialchars($row['incident_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['witnesses']); ?></td>
-          
-                <?php
-            }
-        } else {
-            ?>
-            <tr>
-                <td colspan="5">No appointments request for this counselor.</td>
-            </tr>
-            <?php
-        }
+    <?php
+if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
+    while ($row = mysqli_fetch_assoc($result_appointments)) {
         ?>
+        <tr>
+            <td><?php echo htmlspecialchars($row['Appointment_Date']); ?></td>
+            <td><?php echo htmlspecialchars($row['Reason_for_Appointment']); ?></td>
+            <td><?php echo htmlspecialchars($row['Appointment_Type']); ?></td>
+            <td>
+                <!-- ✅ View Button (Triggers Modal) -->
+                <button class="btn btn-info viewDetails" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#detailsModal" 
+                        data-date="<?php echo htmlspecialchars($row['Appointment_Date']); ?>" 
+                        data-reason="<?php echo htmlspecialchars($row['Reason_for_Appointment']); ?>"
+                        data-type="<?php echo htmlspecialchars($row['Appointment_Type']); ?>"
+                        data-diagnose="<?php echo htmlspecialchars($row['Diagnosed']); ?>"
+                        data-referral="<?php echo htmlspecialchars($row['Referral']); ?>"
+                        data-treatment="<?php echo htmlspecialchars($row['Treatment']); ?>">
+                    View
+                </button>
+            </td>
+        </tr>
+        <?php
+    }
+} else {
+    ?>
+    <tr>
+        <td colspan="5" class="text-center">No appointment requests for this counselor.</td>
+    </tr>
+    <?php
+}
+?>
+
+
+<!-- ✅ Bootstrap Modal for Viewing Details -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Appointment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Appointment Date:</strong> <span id="modalDate"></span></p>
+                <p><strong>Reason for Appointment:</strong> <span id="modalReason"></span></p>
+                <p><strong>Appointment Type:</strong> <span id="modalType"></span></p>
+                <hr>
+                <p><strong>Diagnose:</strong> <span id="modalDiagnose"></span></p>
+                <p><strong>Referral:</strong> <span id="modalReferral"></span></p>
+                <p><strong>Treatment:</strong> <span id="modalTreatment"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     </tbody>
 </table>
 
@@ -190,3 +226,22 @@ $result_appointments = mysqli_query($conn, $query_appointments);
   <?php
   include("footer.php");
   ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".viewDetails").forEach(function (button) {
+        button.addEventListener("click", function () {
+            document.getElementById("modalDate").textContent = this.getAttribute("data-date");
+            document.getElementById("modalReason").textContent = this.getAttribute("data-reason");
+            document.getElementById("modalType").textContent = this.getAttribute("data-type");
+            document.getElementById("modalDiagnose").textContent = this.getAttribute("data-diagnose");
+            document.getElementById("modalReferral").textContent = this.getAttribute("data-referral");
+            document.getElementById("modalTreatment").textContent = this.getAttribute("data-treatment");
+        });
+    });
+});
+</script>
+
+<!-- ✅ Include Bootstrap (if not already included in your project) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

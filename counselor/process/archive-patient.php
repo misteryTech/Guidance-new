@@ -15,11 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         // Success: Set session message for successful update
         $_SESSION['update_status'] = 'success';
-        $_SESSION['update_message'] = 'Patient Archived successfully.';
+        $_SESSION['update_message'] = 'Student Archived successfully.';
     } else {
         // Error: Set session message for failure
         $_SESSION['update_status'] = 'danger';
-        $_SESSION['update_message'] = 'There was an error Archived the Counselor details. Please try again.';
+        $_SESSION['update_message'] = 'There was an error Archived the Student details. Please try again.';
     }
     
     // Redirect back to the update form page

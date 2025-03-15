@@ -39,64 +39,60 @@ include("sidebar.php");
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <?php endif; ?>
+                    <?php
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th> Student ID </th>
-                                <th> Full Name </th>
-                                <th> Email </th>
-                                <th> Gender </th>
-                                <th> Username </th>
-                                <th> Action </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Include database connection
-                            include("connection.php");
 
-                            // Fetch registered Patients from the database
-                            $sql = "SELECT Patient_Id, FirstName, LastName, Email, Gender, Username FROM patient_table WHERE Archive = 'No'";
-                            $result = $conn->query($sql);
+// Query to fetch appointments for the specific counselor
+$query_appointments = "
+    SELECT A.*
+    FROM 
+        incident_reports AS A
 
-                            // Check if there are records
-                            if ($result->num_rows > 0) {
-                                // Loop through each record and display it in the table
-                                while ($row = $result->fetch_assoc()) {
-                                    $Patient_Id = htmlspecialchars($row['Patient_Id']);
-                                    $full_name = htmlspecialchars($row['FirstName'] . " " . $row['LastName']);
-                                    $email = htmlspecialchars($row['Email']);
-                                    $gender = htmlspecialchars($row['Gender']);
-                                    $username = htmlspecialchars($row['Username']);
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $Patient_Id; ?></td>
-                                        <td><?php echo $full_name; ?></td>
-                                        <td><?php echo $email; ?></td>
-                                        <td><?php echo $gender; ?></td>
-                                        <td><?php echo $username; ?></td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-danger btn-icon-text" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#archiveModal" 
-                                                data-patient-id="<?php echo $Patient_Id; ?>">
-                                                <i class="mdi mdi-delete btn-icon-prepend"></i> Archive
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                // If no records are found, display a message
-                                echo "<tr><td colspan='6' class='text-center'>No registered Patients found.</td></tr>";
-                            }
+";
 
-                            // Close the database connection
-                            $conn->close();
-                            ?>
-                        </tbody>
-                    </table>
+$result_appointments = mysqli_query($conn, $query_appointments);
+?>
+                 
+<table class="table">
+    <thead>
+        <tr>
+              
+            <th>Incident Report</th>
+            <th>Incident Location</th>
+            <th>Date</th>
+            <th>Witnesses</th>
+
+           
+        
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
+            // Fetch and display each appointment
+            while ($row = mysqli_fetch_assoc($result_appointments)) {
+                ?>
+                <tr>
+                  
+                    <td><?php echo htmlspecialchars($row['incident_description']); ?></td>
+                    <td><?php echo htmlspecialchars($row['incident_location']); ?></td>
+                 
+                    <td><?php echo htmlspecialchars($row['incident_date']); ?></td>
+                    <td><?php echo htmlspecialchars($row['witnesses']); ?></td>
+          
+                <?php
+            }
+        } else {
+            ?>
+            <tr>
+                <td colspan="5">No appointments request for this counselor.</td>
+            </tr>
+            <?php
+        }
+        ?>
+    </tbody>
+</table>
+
                 </div>
             </div>
         </div>
