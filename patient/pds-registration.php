@@ -351,12 +351,14 @@ unset($_SESSION['update_message']);
 </div>
 
 <hr>
-<p class="card-description">FOR STUDENTS NOT OFFICIALLY RESIDENT OF GENERAL SANTOS CITY (OPTIONAL)</p>
+<p class="card-description">FOR STUDENTS NOT OFFICIALLY RESIDENT OF GENERAL SANTOS CITY (OPTIONAL) </p>
+<h4 class="text-danger">If not type (N/A)</h4>
 
 <div class="row">
   <div class="col-md-6">
       <div class="form-group row">
           <label for="">Where did you stay here in General Santos City</label>
+          
           <div class="col-sm-9">
               <select class="form-select" name="stay_in_gensan">
                   <option value="N/A">N/A</option>
@@ -395,6 +397,7 @@ unset($_SESSION['update_message']);
 
 <hr>
 <p class="card-description">FAMILY HISTORY</p>
+<h4 class="text-danger">If not type (N/A)</h4>
 <?php
 $parents = ['father' => 'Father', 'mother' => 'Mother'];
 $fields = [
@@ -415,7 +418,7 @@ $educationOptions = [
     "High School", "Undergraduate", "Bachelor's Degree", "Master's Degree", "Doctorate"
 ];
 
-$religions = ["Christian", "Islam", "Hindu", "Buddhist", "Other"];
+$religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
 ?>
 
 <div class="row">
@@ -542,6 +545,7 @@ $religions = ["Christian", "Islam", "Hindu", "Buddhist", "Other"];
            <div class="col-md-12">
                 <div class="form-group row">
                 <label><b>If married, write your husband or wife's name:</b>(OPTIONAL)</label>
+                <h4 class="text-danger">If not type (N/A)</h4>
 
                 <div class="row">
             <!-- Position Held Field -->
@@ -608,7 +612,7 @@ $religions = ["Christian", "Islam", "Hindu", "Buddhist", "Other"];
            <div class="col-md-12">
     <div class="form-group">
         <label><b>Other members of household?</b> (Relatives, Helpers, etc.)</label>
-
+<h4 class="text-danger">If not type (N/A)</h4>
         <!-- Loop for Household Members -->
         <script>
             const householdCount = 4;

@@ -221,26 +221,6 @@ if ($patientId) {
 
                                      
 
-                                     <div class="row">
-                                         <div class="col-md-6">
-
-                                              <p><strong>Fullname:</strong><?= htmlspecialchars($patient['firstname'] . " " . $patient['lastname']); ?></p>
-                                              <p><strong>Email:</strong> <?= htmlspecialchars($patient['parents_email']); ?></p>
-                                              <p><strong>Mobile No.:</strong> </p>
-                                         </div>
-
-                                         <div class="col-md-6">
-
-                                            <p><strong>Religion:</strong> <?= htmlspecialchars($patient['parents_religion']); ?></p>
-                                            <p><strong>Tribe:</strong> <?= htmlspecialchars($patient['landlord_name']); ?></p>
-                                            <p><strong>Language Spoken:</strong> <?= htmlspecialchars($patient['landlord_name']); ?></p>
-
-                                         </div>
-
-
-                                         
-                                     </div>
-
                         
                                      <hr>
                                      <h1>Family History</h1>
