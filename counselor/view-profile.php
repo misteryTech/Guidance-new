@@ -15,7 +15,9 @@ if ($patientId) {
             PI.*,
             PI.religion AS parents_religion,
             PI.tribe AS parents_tribe,
-            PI.email AS parents_email
+            PI.email AS parents_email,
+            pt.PatientId AS pds_id
+
         FROM patient_table AS pt
         LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.student_id
         INNER JOIN parents_info AS PI ON PI.student_id = pds.id
@@ -225,12 +227,12 @@ if ($patientId) {
                                      <hr>
                                      <h1>Family History</h1>
                                      <h4>Father Details</h4>
-
+                                 
                     <?php
                     // Assuming you have a database connection
               
                     // Fetch father’s details
-                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $student_id = $patient['pds_id']; // Assuming patient ID is available
                     $sql_parents = "SELECT * FROM parents_info WHERE student_id = ? AND parent_type = 'father'";
                     $stmt = $conn->prepare($sql_parents);
                     $stmt->bind_param("i", $student_id);
@@ -242,6 +244,7 @@ if ($patientId) {
                     ?>
                         <div class="row">
                             <div class="col-md-6">
+                               
                                 <p><strong>Fullname:</strong> <?= htmlspecialchars($father['firstname'] . " " . $father['lastname']); ?></p>
                                 <p><strong>Email:</strong> <?= htmlspecialchars($father['email']); ?></p>
                                 <p><strong>Mobile No.:</strong> <?= htmlspecialchars($father['cellphone']); ?></p>
@@ -418,7 +421,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $student_id = $patient['pds_id']; // Assuming patient ID is available
                     $sql_elementary = "SELECT * FROM education WHERE student_id = ? AND level = 'Elementary'";
                     $stmt = $conn->prepare($sql_elementary);
                     $stmt->bind_param("i", $student_id);
@@ -462,7 +465,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $student_id = $patient['pds_id']; // Assuming patient ID is available
                     $sql_jhs = "SELECT * FROM education WHERE student_id = ? AND level = 'Junior High School'";
                     $stmt = $conn->prepare($sql_jhs);
                     $stmt->bind_param("i", $student_id);
@@ -510,7 +513,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['id']; // Assuming patient ID is available
+                    $student_id = $patient['pds_id']; // Assuming patient ID is available
                     $sql_shs = "SELECT * FROM education WHERE student_id = ? AND level = 'Senior High School'";
                     $stmt = $conn->prepare($sql_shs);
                     $stmt->bind_param("i", $student_id);
