@@ -186,7 +186,7 @@ if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
 ?>
 
 
-<!-- ✅ Bootstrap Modal for Viewing Details -->
+<!-- Modal -->
 <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -195,11 +195,10 @@ if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Appointment Date:</strong> <span id="modalDate"></span></p>
-                <p><strong>Reason for Appointment:</strong> <span id="modalReason"></span></p>
-                <p><strong>Appointment Type:</strong> <span id="modalType"></span></p>
-                <hr>
-                <p><strong>Diagnose:</strong> <span id="modalDiagnose"></span></p>
+                <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                <p><strong>Reason:</strong> <span id="modalReason"></span></p>
+                <p><strong>Type:</strong> <span id="modalType"></span></p>
+                <p><strong>Diagnosed:</strong> <span id="modalDiagnose"></span></p>
                 <p><strong>Referral:</strong> <span id="modalReferral"></span></p>
                 <p><strong>Treatment:</strong> <span id="modalTreatment"></span></p>
             </div>
@@ -209,6 +208,9 @@ if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
         </div>
     </div>
 </div>
+
+
+
 
     </tbody>
 </table>
@@ -227,6 +229,8 @@ if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
   include("footer.php");
   ?>
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".viewDetails").forEach(function (button) {
@@ -241,7 +245,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-
-<!-- ✅ Include Bootstrap (if not already included in your project) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

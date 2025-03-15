@@ -77,7 +77,7 @@ include("top-navigation.php");
   <div class="row">
   <div class="col-md-4">
   <div class="form-group row">
-    <label for="firstName" class="col-sm-3 col-form-label">First Name <span class="notification">*</span></label>
+    <label for="firstName" class="col-sm-4 col-form-label">First Name <span class="notification">*</span></label>
     <div class="col-sm-10">
       <input 
         type="text" 
@@ -94,7 +94,7 @@ include("top-navigation.php");
 
 <div class="col-md-4">
   <div class="form-group row">
-    <label for="middleName" class="col-sm-3 col-form-label">Middle Name <span class="notification">*</span></label>
+    <label for="middleName" class="col-sm-4 col-form-label">Middle Name <span class="notification">*</span></label>
     <div class="col-sm-10">
       <input 
         type="text" 
@@ -112,7 +112,7 @@ include("top-navigation.php");
 
 <div class="col-md-4">
   <div class="form-group row">
-    <label for="lastName" class="col-sm-3 col-form-label">Last Name <span class="notification">*</span></label>
+    <label for="lastName" class="col-sm-4 col-form-label">Last Name <span class="notification">*</span></label>
     <div class="col-sm-10">
       <input 
         type="text" 
@@ -322,17 +322,16 @@ include("top-navigation.php");
     checkFormValidity();  // Check form validity on page load
   };
 
-  // Validate characters (for names or text inputs)
   function validateCharacters(input) {
-    const regex = /^[a-zA-Z\s]+$/;
-    const errorElement = document.getElementById(input.id + "Error");
+  const regex = /^[a-zA-ZñÑ\s]+$/; // Allow letters, spaces, "ñ", and "Ñ"
+  const errorElement = document.getElementById(input.id + "Error");
 
-    if (!regex.test(input.value)) {
-      errorElement.style.display = "block";
-    } else {
-      errorElement.style.display = "none";
-    }
+  if (!regex.test(input.value)) {
+    errorElement.style.display = "block";
+  } else {
+    errorElement.style.display = "none";
   }
+}
 
   // Toggle Password Visibility
   const togglePassword = document.querySelector('#togglePassword');

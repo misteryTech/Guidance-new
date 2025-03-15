@@ -117,7 +117,7 @@ $conn->close();
             <div class="row">
                 <div class="col-md-6">
                     <h4>Personal Details</h4>
-                    <p><strong>Patient ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
+                    <p><strong>Student ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
                     <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] . " " . $patient['LastName']); ?></p>
                
                 </div>
