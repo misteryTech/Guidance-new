@@ -1,7 +1,7 @@
 <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © GFI <a href="https://www.bootstrapdash.com/" target="_blank">Guidance</a>. All rights reserved.</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Developed By Students <i class="mdi mdi-heart text-danger"></i></span>
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © GFI <a href="#" target="_blank">Guidance</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Credits to the Developer <i class="mdi mdi-heart text-danger"></i></span>
             </div>
           </footer>
           <!-- partial -->
@@ -36,5 +36,30 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 
+<!-- Include jQuery & DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+<script>
+$(document).ready(function () {
+    // Initialize DataTables for each table separately
+    $('#student_appointment_table').DataTable({
+        "paging": true,        
+        "searching": true,     
+        "ordering": true,      
+        "info": true           
+    });
+
+    $('#counselor_transaction').DataTable({
+        "paging": true,        
+        "searching": true,     
+        "ordering": true,      
+        "info": true           
+    });
+});
+</script>
   </body>
 </html>

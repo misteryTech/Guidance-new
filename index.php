@@ -37,7 +37,7 @@ $isLoggedIn = isset($_SESSION['loggedIn']);
         
 
       <?php else: ?>
-        <li><a class="main-nav-link nav-cta" href="student-login.php">Login</a></li>
+        <li><a class="main-nav-link nav-cta" href="login.php">Login</a></li>
         
       <?php endif; ?>
     </ul>

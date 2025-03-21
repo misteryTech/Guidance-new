@@ -24,13 +24,9 @@ include("sidebar.php");
                     <p class="card-description"> List of <code>Incident</code></p>
 
                     <?php
-                    // Check if there's a session message for registration success or error
-                    $status = isset($_SESSION['update_status']) ? $_SESSION['update_status'] : '';
-                    $message = isset($_SESSION['update_message']) ? $_SESSION['update_message'] : '';
-
-                    // Clear the session variables after displaying the message (if needed)
-                    unset($_SESSION['update_status']);
-                    unset($_SESSION['update_message']);
+                    $status = $_SESSION['update_status'] ?? '';
+                    $message = $_SESSION['update_message'] ?? '';
+                    unset($_SESSION['update_status'], $_SESSION['update_message']);
                     ?>
 
                     <?php if ($status && $message): ?>
@@ -39,83 +35,79 @@ include("sidebar.php");
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <?php endif; ?>
+                    
                     <?php
-
-
-// Query to fetch appointments for the specific counselor
-$query_appointments = "
-    SELECT A.*
-    FROM 
-        incident_reports AS A
-
-";
-
-$result_appointments = mysqli_query($conn, $query_appointments);
-?>
-                 
-<table class="table">
-    <thead>
-        <tr>
-              
-            <th>Incident Report</th>
-            <th>Incident Location</th>
-            <th>Date</th>
-            <th>Witnesses</th>
-
-           
-        
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
-            // Fetch and display each appointment
-            while ($row = mysqli_fetch_assoc($result_appointments)) {
-                ?>
-                <tr>
+                    $query_appointments = "SELECT *, DATE_FORMAT(incident_date, '%M %d, %Y') AS formatted_date, DATE_FORMAT(incident_time, '%h:%i %p') AS formatted_time FROM incident_reports";
+                    $result_appointments = mysqli_query($conn, $query_appointments);
+                    ?>
                   
-                    <td><?php echo htmlspecialchars($row['incident_description']); ?></td>
-                    <td><?php echo htmlspecialchars($row['incident_location']); ?></td>
-                 
-                    <td><?php echo htmlspecialchars($row['incident_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['witnesses']); ?></td>
-          
-                <?php
-            }
-        } else {
-            ?>
-            <tr>
-                <td colspan="5">No appointments request for this counselor.</td>
-            </tr>
-            <?php
-        }
-        ?>
-    </tbody>
-</table>
+                    <table class="table" id="incident_table_query">
+                        <thead>
+                            <tr>
+                                <th>Incident Report</th>
+                                <th>Incident Location</th>
+                                <th>Date</th>
+                                <th>Witnesses</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($result_appointments && mysqli_num_rows($result_appointments) > 0): ?>
+                                <?php while ($row = mysqli_fetch_assoc($result_appointments)): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($row['incident_description']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['incident_location']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['formatted_date']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['witnesses']); ?></td>
+                                        <td>
+                                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewModal"
+                                                    data-description="<?php echo htmlspecialchars($row['incident_description']); ?>"
+                                                    data-location="<?php echo htmlspecialchars($row['incident_location']); ?>"
+                                                    data-date="<?php echo htmlspecialchars($row['formatted_date']); ?>"
+                                                    data-time="<?php echo htmlspecialchars($row['formatted_time']); ?>"
+                                                    data-witnesses="<?php echo htmlspecialchars($row['witnesses']); ?>"
+                                                    data-reporter="<?php echo htmlspecialchars($row['reported_by']); ?>"
+                                                    data-action-taken="<?php echo htmlspecialchars($row['actions_taken']); ?>"
+                                                    data-contact="<?php echo htmlspecialchars($row['contact_info']); ?>">
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5">No incident reports found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Archive Modal -->
-    <div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
+    <!-- View Modal -->
+    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="archiveForm" method="post" action="process/archive-patient.php">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="archiveModalLabel">Archive Patient</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to archive this Student?</p>
-                        <input type="hidden" id="archivePatientId" name="Patient_Id">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Archive</button>
-                    </div>
-                </form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewModalLabel">Incident Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Incident Description:</strong> <span id="modal-description"></span></p>
+                    <p><strong>Location:</strong> <span id="modal-location"></span></p>
+                    <p><strong>Date:</strong> <span id="modal-date"></span></p>
+                    <p><strong>Time:</strong> <span id="modal-time"></span></p>
+                    <p><strong>Witnesses:</strong> <span id="modal-witnesses"></span></p>
+                    <p><strong>Reporter:</strong> <span id="modal-reporter"></span></p>
+                    <p><strong>Action Taken:</strong> <span id="modal-action"></span></p>
+                    <p><strong>Contact Info:</strong> <span id="modal-contact"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -125,10 +117,16 @@ $result_appointments = mysqli_query($conn, $query_appointments);
 </div>
 
 <script>
-    // Populate archive modal fields
-    var archiveModal = document.getElementById('archiveModal');
-    archiveModal.addEventListener('show.bs.modal', function (event) {
+    // Populate view modal fields
+    document.getElementById('viewModal').addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
-        document.getElementById('archivePatientId').value = button.getAttribute('data-patient-id');
+        document.getElementById('modal-description').textContent = button.getAttribute('data-description');
+        document.getElementById('modal-location').textContent = button.getAttribute('data-location');
+        document.getElementById('modal-date').textContent = button.getAttribute('data-date');
+        document.getElementById('modal-time').textContent = button.getAttribute('data-time');
+        document.getElementById('modal-witnesses').textContent = button.getAttribute('data-witnesses');
+        document.getElementById('modal-reporter').textContent = button.getAttribute('data-reporter');
+        document.getElementById('modal-action').textContent = button.getAttribute('data-action-taken');
+        document.getElementById('modal-contact').textContent = button.getAttribute('data-contact');
     });
 </script>

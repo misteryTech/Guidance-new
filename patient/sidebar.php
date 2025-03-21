@@ -34,6 +34,13 @@
               </a>
             </li>
 
+            <li class="nav-item <?= $current_page =='pds_version2.php' ? 'active' : ''?>">
+              <a class="nav-link" href="pds_version2.php">
+                <span class="menu-title">Version 2</span>
+                <i class="mdi mdi-calendar menu-icon"></i>
+              </a>
+            </li>
+
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#pds" aria-expanded="false" aria-controls="icons">
                 <span class="menu-title">PDS Form</span>

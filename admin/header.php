@@ -73,6 +73,15 @@ if ($result->num_rows === 1) {
 <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+'
+
+<!-- Include DataTables CSS & Bootstrap -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+
+
+
   </head>
   <body>
 

@@ -60,32 +60,52 @@
 
 
               <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-info card-img-holder text-white">
-                  <div class="card-body">
+                     <div class="card bg-gradient-info card-img-holder text-white">
+                             <div class="card-body">
 
-                  <?php
-                      $query_total_student_request = "
-                      SELECT COUNT(*) AS total_student_request 
-                      FROM appointments 
-                      WHERE MONTH(Appointment_Date) = MONTH(NOW()) 
-                        AND YEAR(Appointment_Date) = YEAR(NOW()) AND Counselor_Id = '$counselor_id';
-                      ";
+                                 <!-- Month Selection Dropdown -->
+                                 <label for="monthFilter">Select Month:</label>
+                                 <select id="monthFilter" class="form-control">
+                                     <option value="<?= date('m') ?>" selected>This Month</option>
+                                     <?php 
+                                     for ($m = 1; $m <= 12; $m++) {
+                                         $monthName = date('F', mktime(0, 0, 0, $m, 1));
+                                         echo "<option value='$m'>$monthName</option>";
+                                     }
+                                     ?>
+                                 </select>
+                                   
+                                 <?php
+                                     // Default query for the current month
+                                     $currentMonth = date('m');
+                                     $query_total_student_request = "
+                                     SELECT COUNT(*) AS total_student_request 
+                                     FROM appointments 
+                                     WHERE MONTH(Appointment_Date) = '$currentMonth' 
+                                         AND YEAR(Appointment_Date) = YEAR(NOW()) 
+                                         AND Counselor_Id = '$counselor_id';
+                                     ";
+                                   
+                                     $result_total_student = mysqli_query($conn, $query_total_student_request);
+                                     $totalStudentRequest = 0;
+                                   
+                                     if ($result_total_student && $row_request = mysqli_fetch_assoc($result_total_student)) {
+                                         $totalStudentRequest = $row_request['total_student_request'];
+                                     }
+                                 ?>
 
-                    $result_total_student = mysqli_query($conn, $query_total_student_request);
+                                 <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+                                 <h4 class="font-weight-normal mb-3">This Month Request <i class="mdi mdi-calendar mdi-24px float-end"></i></h4>
+                                 <h2 class="mb-5" id="thisMonthRequest"><?= $totalStudentRequest; ?></h2>
+                                   
+                             </div>
+                         </div>
+                                   
+                     </div>
 
-                    $totalResultStudent = 0;
-                    if($result_total_student && $row_request = mysqli_fetch_assoc($result_total_student)){
-                      $totalStudentRequest = $row_request['total_student_request'];
-                    }
-                  ?>
-                    <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">This Month Request <i class="mdi mdi-calendar mdi-24px float-end"></i>
-                    </h4>
-                    <h2 class="mb-5"><?= $totalStudentRequest; ?> </h2>
-                   
-                  </div>
-                </div>
-              </div>
+
+
+              
               <div class="col-md-4 stretch-card grid-margin">
                 <div class="card bg-gradient-success card-img-holder text-white">
                   <div class="card-body">
@@ -119,25 +139,25 @@
                     <?php
 
 
-// Query to fetch appointments for the specific counselor
-$query_appointments = "
-    SELECT 
-        a.Patient_Id, 
-        a.Reason_for_Appointment, 
-        a.Status, 
-        a.Treatment,
-        a.Appointment_Date,
-        a.Appointment_Id
-    FROM 
-        appointments a
-    WHERE 
-        a.Counselor_Id = '$counselor_id' AND status= 'Request'
-";
 
-$result_appointments = mysqli_query($conn, $query_appointments);
-?>
+                    $query_appointments = "
+                        SELECT 
+                            a.Patient_Id, 
+                            a.Reason_for_Appointment, 
+                            a.Status, 
+                            a.Treatment,
+                            a.Appointment_Date,
+                            a.Appointment_Id
+                        FROM 
+                            appointments a
+                        WHERE 
+                            a.Counselor_Id = '$counselor_id' AND status= 'Request'
+                    ";
 
-<table class="table">
+                    $result_appointments = mysqli_query($conn, $query_appointments);
+                    ?>
+
+                    <table class="table" id="student_request_table">
     <thead>
         <tr>
             <th>Student</th>
@@ -199,3 +219,21 @@ $result_appointments = mysqli_query($conn, $query_appointments);
   <?php
   include("footer.php");
   ?>
+
+  <script>
+    $(document).ready(function () {
+    $("#monthFilter").change(function () {
+        var selectedMonth = $(this).val();
+        
+        $.ajax({
+            url: "fetch/fetch_requests.php", // PHP file to fetch data
+            type: "POST",
+            data: { selectedMonth: selectedMonth },
+            success: function (response) {
+                $("#thisMonthRequest").text(response); // Update the count dynamically
+            }
+        });
+    });
+});
+
+  </script>

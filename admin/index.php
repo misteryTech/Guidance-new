@@ -123,7 +123,7 @@ $result_appointments = mysqli_query($conn, $query_appointments);
 ?>
 
 
-<table class="table">
+<table class="table" id="incident_table">
     <thead>
         <tr>
               

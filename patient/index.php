@@ -137,7 +137,7 @@ $result_appointments = mysqli_query($conn, $query_appointments);
 ?>
 
 
-<table class="table">
+<table class="table" id="student_appointment_table">
     <thead>
         <tr>
               
@@ -232,6 +232,8 @@ if ($result_appointments && mysqli_num_rows($result_appointments) > 0) {
 
 
 <script>
+
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".viewDetails").forEach(function (button) {
         button.addEventListener("click", function () {
@@ -244,4 +246,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+
+
+
 </script>

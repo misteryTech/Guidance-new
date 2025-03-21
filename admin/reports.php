@@ -22,7 +22,7 @@ include("top-navigation.php");
 
           
                                  <div class="row">
-                                 <div class="col-lg-6 grid-margin stretch-card">
+                                 <div class="col-lg-12 grid-margin stretch-card">
                                      <div class="card">
                                        <div class="card-body">
                                          <h4 class="card-title">Monthly Appointments</h4>
@@ -33,7 +33,7 @@ include("top-navigation.php");
 
                                       
                 
-
+<!-- 
                                    <div class="col-lg-6 grid-margin stretch-card">
                                      <div class="card">
                                        <div class="card-body">
@@ -67,7 +67,7 @@ include("top-navigation.php");
                                           </div>
                                         </div>
                                       </div>
-                                 </div>
+                                 </div> -->
 
 
 

@@ -9,6 +9,6 @@ $_SESSION = [];
 session_destroy();
 
 // Redirect to the login page or any other page
-header("Location: ../student-login.php"); // Replace 'login.php' with your login page
+header("Location: ../login.php"); // Replace 'login.php' with your login page
 exit();
 ?>

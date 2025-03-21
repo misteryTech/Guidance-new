@@ -1,7 +1,7 @@
 <footer class="footer">
-            <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © GFI <a href="https://www.bootstrapdash.com/" target="_blank">Guidance</a>. All rights reserved.</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Developed By Students <i class="mdi mdi-heart text-danger"></i></span>
+<div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © GFI <a href="#" target="_blank">Guidance</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Credits to the Developer <i class="mdi mdi-heart text-danger"></i></span>
             </div>
           </footer>
           <!-- partial -->
@@ -39,5 +39,27 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+
+<script>
+
+    $(document).ready(function () {
+    // Array of table IDs
+    let tableIds = ['#student_request_table', '#patient_list_table' , '#patient_archive_list', '#student_session_list']; // Add more as needed
+
+    // Loop through each ID and initialize DataTables
+    tableIds.forEach(function (id) {
+        $(id).DataTable({
+            "paging": true,        
+            "searching": true,     
+            "ordering": true,      
+            "info": true           
+        });
+    });
+});
+
+
+
+
+</script>
   </body>
 </html>

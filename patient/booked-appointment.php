@@ -30,6 +30,15 @@ include "top-navigation.php";
                 </ul>
               </nav>
             </div>
+
+            <?php if (isset($_SESSION["registration_status"]) && isset($_SESSION["registration_message"])): ?>
+            <div class="alert alert-<?php echo $_SESSION["registration_status"] === "success" ? "success" : "danger"; ?>" role="alert">
+                <?php echo $_SESSION["registration_message"]; ?>
+            </div>
+            <?php unset($_SESSION["registration_status"]); unset($_SESSION["registration_message"]); ?>
+        <?php endif; ?>
+
+        
         
             <div class="row">
   <div class="col-lg-7 grid-margin">
@@ -50,10 +59,6 @@ include "top-navigation.php";
         unset($_SESSION["registration_status"]);
         unset($_SESSION["registration_message"]);
         ?>
-
-
-
-
         <form method="POST" action="process/submit_appointment.php" class="form-sample">
           <p class="card-description">Please fill in the details below</p>
             <div class="row">
@@ -138,28 +143,6 @@ include "top-navigation.php";
                        </div>
 
                </div>
-
-
-           
-    
-          <!-- <div class="col-md-12">
-                   <div class="form-group row">
-                       <label class="col-sm-3 col-form-label">Treatment:</label>
-                       <div class="col-sm-9">
-                           <select class="form-select" name="treatment" required>
-                               <option value="" disabled>--Select Treatment--</option>
-                               <option value="Anxiety">Anxiety</option>
-                               <option value="Depression">Depression</option>
-                               
-                           </select>
-                       </div>
-                   </div>
-               </div> -->
-
-            
-
-
-
            </div>
 
     <!-- Submit Button -->
@@ -182,7 +165,7 @@ include "top-navigation.php";
       <div class="card-body">
         <h4 class="card-title">Booking Logs</h4>
        
-        <table class="table table-hover">
+        <table class="table table-hover" id="counselor_transaction">
     <thead>
         <tr>
             <th>Counselor Name</th>
@@ -238,13 +221,7 @@ include "top-navigation.php";
     </div>
   </div>
 
-
-
 </div>
-
-
-
-
       <!-- Modal for Registration Status -->
       <div class="modal" tabindex="-1" id="registrationModal" role="dialog">
   <div class="modal-dialog" role="document">

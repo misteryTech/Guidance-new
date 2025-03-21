@@ -40,7 +40,7 @@ include("sidebar.php");
                     </div>
                     <?php endif; ?>
 
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="student_table">
                         <thead>
                             <tr>
                                 <th> Student ID </th>

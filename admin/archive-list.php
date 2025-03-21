@@ -40,7 +40,7 @@ include("sidebar.php");
                     </div>
                     <?php endif; ?>
 
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="archive_table">
                         <thead>
                             <tr>
                                 <th> Admin ID </th>

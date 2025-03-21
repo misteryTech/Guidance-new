@@ -190,7 +190,7 @@ unset($_SESSION['update_message']);
     <!-- Address -->
     <div class="col-md-12">
       <div class="form-group row">
-        <label for="birthaddress" class="col-sm-2 col-form-label">Birth Address <span class="notification">*</span></label>
+        <label for="birthaddress" class="col-sm-2 col-form-label">Birth Place<span class="notification">*</span></label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="birthaddress" name="birthaddress" required />
         </div>

@@ -1,9 +1,15 @@
 <?php
-    include("connection.php");
 session_start();
+include("connection.php"); // Ensure the database connection is included
 
-// Redirect if already logged in
-if (isset($_SESSION['Patient_Id'])) {
+// Redirect logged-in users
+if (isset($_SESSION['Admin_Id'])) {
+    header("Location: admin/index.php");
+    exit();
+} elseif (isset($_SESSION['Counselor_Id'])) {
+    header("Location: counselor/index.php");
+    exit();
+} elseif (isset($_SESSION['Patient_Id'])) {
     header("Location: patient/index.php");
     exit();
 }
@@ -11,50 +17,68 @@ if (isset($_SESSION['Patient_Id'])) {
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-    $identifier = trim($_POST['identifier']);
+    $identifier = trim($_POST['identifier']); // Can be Email, Username, or Student ID
     $password = trim($_POST['password']);
 
-    // Determine the appropriate query based on input type
-    if (is_numeric($identifier)) {
-        // If identifier is numeric, treat it as Patient_Id
-        $query = "SELECT Patient_Id, Username, Password FROM patient_table WHERE Patient_Id = ?";
-    } else {
-        // Otherwise, treat it as Username
-        $query = "SELECT Patient_Id, Username, Password FROM patient_table WHERE Username = ?";
-    }
+    // Queries for different user types
+    $queries = [
+        "admin" => "SELECT Admin_Id AS id, Username, Email, Password FROM admin_table WHERE Email = ? OR Username = ?",
+        "counselor" => "SELECT Counselor_Id AS id, Username, Email, Password FROM counselor_table WHERE Email = ? OR Username = ?",
+        "student" => "SELECT Patient_Id AS id, Username, Password, archive FROM patient_table WHERE Patient_Id = ? OR Username = ?"
+    ];
 
-    // Prepare and execute the query
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $identifier);
-    $stmt->execute();
-    $stmt->store_result();
+    foreach ($queries as $role => $query) {
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $identifier, $identifier);
+        $stmt->execute();
+        $stmt->store_result();
 
-    if ($stmt->num_rows === 1) {
-        // Bind results
-        $stmt->bind_result($Patient_Id, $username, $db_password);
-        $stmt->fetch();
+        if ($stmt->num_rows === 1) {
+            if ($role === "student") {
+                $stmt->bind_result($id, $username, $db_password, $archive_status);
+                $stmt->fetch();
 
-        // Verify the password (assumes passwords are hashed in the database)
-        if ($password === $db_password) {
-            // Set session variables on successful login
-            $_SESSION['Patient_Id'] = $Patient_Id;
-            $_SESSION['Username'] = $username;
+                if ($archive_status === 'Yes') {
+                    $error_message = "Your account is inactive. Please contact support.";
+                    break;
+                }
+            } else {
+                $stmt->bind_result($id, $username, $email, $db_password);
+                $stmt->fetch();
+            }
 
-            // Redirect to the dashboard
-            header("Location: patient/index.php");
-            exit();
-        } else {
-            $error_message = "Invalid password. Please try again.";
+            // Use password_verify() for secure password validation
+            if (password_verify($password, $db_password)) {
+                // Set session variables based on role
+                $_SESSION['Username'] = $username;
+                if ($role === "admin") {
+                    $_SESSION['Admin_Id'] = $id;
+                    header("Location: admin/index.php");
+                } elseif ($role === "counselor") {
+                    $_SESSION['Counselor_Id'] = $id;
+                    header("Location: counselor/index.php");
+                } elseif ($role === "student") {
+                    $_SESSION['Patient_Id'] = $id;
+                    header("Location: patient/index.php");
+                }
+                exit();
+            } else {
+                $error_message = "Invalid password. Please try again.";
+                break;
+            }
         }
-    } else {
-        $error_message = "Invalid Student ID or Username. Please try again.";
+        $stmt->close();
     }
-    $stmt->close();
+
+    if (empty($error_message)) {
+        $error_message = "Invalid credentials. Please try again.";
+    }
+
+    $conn->close();
 }
-$conn->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
