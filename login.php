@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include("connection.php"); // Ensure the database connection is included
@@ -23,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Queries for different user types
     $queries = [
-        "admin" => "SELECT Admin_Id AS id, Username, Email, Password FROM admin_table WHERE Email = ? OR Username = ?",
-        "counselor" => "SELECT Counselor_Id AS id, Username, Email, Password FROM counselor_table WHERE Email = ? OR Username = ?",
-        "student" => "SELECT Patient_Id AS id, Username, Password, archive FROM patient_table WHERE Patient_Id = ? OR Username = ?"
+        "admin" => "SELECT Admin_Id AS id, Username, Email, Password, Archive FROM admin_table WHERE Email = ? OR Username = ?",
+        "counselor" => "SELECT Counselor_Id AS id, Username, Email, Password, Archive FROM counselor_table WHERE Email = ? OR Username = ?",
+        "student" => "SELECT Patient_Id AS id, Username, Email, Password, Archive FROM patient_table WHERE Patient_Id = ? OR Username = ?"
     ];
 
     foreach ($queries as $role => $query) {
@@ -35,22 +34,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->store_result();
 
         if ($stmt->num_rows === 1) {
-            if ($role === "student") {
-                $stmt->bind_result($id, $username, $db_password, $archive_status);
-                $stmt->fetch();
+            // Adjusted to match the number of selected columns
+            $stmt->bind_result($id, $username, $email, $db_password, $archive_status);
+            $stmt->fetch();
 
-                if ($archive_status === 'Yes') {
-                    $error_message = "Your account is inactive. Please contact support.";
-                    break;
-                }
-            } else {
-                $stmt->bind_result($id, $username, $email, $db_password);
-                $stmt->fetch();
+            // Check if the account is archived
+            if ($archive_status === 'Yes') {
+                $error_message = "Your account is inactive. Please visit the guidance office for reactivation.";
+                break;
             }
 
-            // Use password_verify() for secure password validation
+            // Secure password verification
             if ($password === $db_password) {
-                // Set session variables based on role
                 $_SESSION['Username'] = $username;
                 if ($role === "admin") {
                     $_SESSION['Admin_Id'] = $id;
@@ -78,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
-
 
 
 <!DOCTYPE html>
