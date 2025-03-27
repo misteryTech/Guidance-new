@@ -314,121 +314,7 @@ $isLoggedIn = isset($_SESSION['loggedIn']);
       </section>
 
       <!-- OWNER SECTION -->
-      
-      <!-- FAQ SECTION -->
-      <section class="faq-section" id="faq">
-        <div class="container">
-          <span class="subheading">FAQ</span>
-          <h2 class="heading-secondary">Frequently Asked Questions</h2>
-        </div>
-        <div class="accordian">
-          
-          <div class="item">
-            <p class="number">01</p>
-            <p class="text">What can I expect to do in therapy?</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-            <div class="hidden-box">
-              <p>
-                For the first few sessions we will spend time getting to know
-                you and what brought you to therapy. This is called the
-                assessment phase. We will create a treatment plan with you so
-                that we know what the rest of our therapy will focus on.
-                Treatment plans are fluid and change frequently, as in therapy
-                one of our goals is growth.
-              </p>
-            </div>
-          </div>
-          
-          <div class="item">
-            <p class="number">02</p>
-            <p class="text">How often do we meet for therapy?</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-            <div class="hidden-box">
-              <p>
-                Initially, Student are asked to come on a weekly basis and when
-                all are ready, drop down to weekly or monthly. This is
-                something that we frequently address and revisit throughout our
-                work together.
-              </p>
-            </div>
-          </div>
-          <div class="item">
-            <p class="number">03</p>
-            <p class="text">Do I have to have a diagnosis to be in therapy?</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-            <div class="hidden-box">
-              <p>
-                You are welcome to seek out therapy whenever you see fit. You do
-                not have to have a previous mental health diagnosis to initiate
-                services.
-              </p>
-            </div>
-          </div>
-          <div class="item">
-            <p class="number">04</p>
-            <p class="text">What types of clients do you accept?</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-            <div class="hidden-box">
-              <p>
-              GFI Guidance office accept student of all ages, races, identities,
-                and genders.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+     
     </main>
 
     <!-- FOOTER SECTION -->
@@ -446,22 +332,7 @@ $isLoggedIn = isset($_SESSION['loggedIn']);
           </address>
 
           <ul class="social-links">
-            <li>
-              <a
-                class="footer-link"
-                href="https://www.instagram.com/lonestarhealing/"
-                target="_blank"
-                ><ion-icon class="social-icon" name="logo-instagram"></ion-icon
-              ></a>
-            </li>
-            <li>
-              <a
-                class="footer-link"
-                href="https://www.facebook.com/LoneStarHealing/"
-                target="_blank"
-                ><ion-icon class="social-icon" name="logo-facebook"></ion-icon
-              ></a>
-            </li>
+   
           </ul>
 
           <p class="copyright">
