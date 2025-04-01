@@ -165,25 +165,24 @@ unset($_SESSION['update_message']);
         </div>
       </div>
     </div>
-    
-    <!-- Date of Birth -->
+
+
     <div class="col-md-6">
-      <div class="form-group row">
-        <label for="dob" class="col-sm-3 col-form-label">Date of Birth <span class="notification">*</span></label>
-        <div class="col-sm-9">
-          <input type="date" class="form-control" id="dob" name="dob" required />
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="age" class="col-sm-3 col-form-label">Age<span class="notification">*</span></label>
-        <div class="col-sm-9">
-          <input type="text" class="form-control" id="age" name="age" required />
-        </div>
-      </div>
-
-
+  <div class="form-group row">
+    <label for="dob" class="col-sm-3 col-form-label">Date of Birth <span class="notification">*</span></label>
+    <div class="col-sm-9">
+      <input type="date" class="form-control" id="dob" name="dob" required />
     </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="age" class="col-sm-3 col-form-label">Age <span class="notification">*</span></label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="age" name="age" required readonly />
+    </div>
+  </div>
+</div>
+
   </div>
 
   <div class="row">
@@ -352,7 +351,7 @@ unset($_SESSION['update_message']);
 
 <hr>
 <p class="card-description">FOR STUDENTS NOT OFFICIALLY RESIDENT OF GENERAL SANTOS CITY (OPTIONAL) </p>
-<h4 class="text-danger">If not type (N/A)</h4>
+
 
 <div class="row">
   <div class="col-md-6">
@@ -397,7 +396,6 @@ unset($_SESSION['update_message']);
 
 <hr>
 <p class="card-description">FAMILY HISTORY</p>
-<h4 class="text-danger">If not type (N/A)</h4>
 <?php
 $parents = ['father' => 'Father', 'mother' => 'Mother'];
 $fields = [
@@ -545,7 +543,7 @@ $religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
            <div class="col-md-12">
                 <div class="form-group row">
                 <label><b>If married, write your husband or wife's name:</b>(OPTIONAL)</label>
-                <h4 class="text-danger">If not type (N/A)</h4>
+       
 
                 <div class="row">
             <!-- Position Held Field -->
@@ -612,7 +610,7 @@ $religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
            <div class="col-md-12">
     <div class="form-group">
         <label><b>Other members of household?</b> (Relatives, Helpers, etc.)</label>
-<h4 class="text-danger">If not type (N/A)</h4>
+
         <!-- Loop for Household Members -->
         <script>
             const householdCount = 4;
@@ -782,7 +780,7 @@ $religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
 
   <hr>
   <p><strong>SCHOOL WORK AND PROGRESS RECORD</strong></p>
-  <h4 class="text-danger">If not type (N/A)</h4>
+  
   <div id="education-container"></div>
 
 <script>
@@ -949,7 +947,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <hr>
                       <p><strong>VOCATIONAL RECORD</strong></p>
-                      <h4 class="text-danger">If not type (N/A)</h4>
+              
                       <div class="row">
                         <div class="col-md-12">
                               <div class="form-group row">
@@ -1310,19 +1308,66 @@ document.addEventListener("DOMContentLoaded", function () {
 ?>
 
 
-<script>
-    
-  // Show the modal only if there's a message
-  <?php if ($status !== ''): ?>
-    $('#registrationModal').modal('show');
-  <?php endif; ?>
+<script>document.addEventListener("DOMContentLoaded", function () {
+  fetchPatientProfile(); // Fetch data first, then calculate age
+});
 
+function fetchPatientProfile() {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "process/fetch-patient-profile.php", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
 
-  function calculateAge() {
+        if (response.error) {
+          alert(response.error);
+          return;
+        }
+
+        if (response) {
+          document.getElementById("patientId").value = response.Patient_Id || "";
+          document.getElementById("firstName").value = response.FirstName || "";
+          document.getElementById("lastName").value = response.LastName || "";
+          document.getElementById("middleName").value = response.MiddleName || "";
+          document.getElementById("address").value = response.Address || "";
+          document.getElementById("phone").value = response.PhoneNumber || "";
+          document.getElementById("email").value = response.Email || "";
+
+          // Set gender if available
+          if (response.Gender) {
+            const genderSelect = document.getElementById("gender");
+            const genderValue = response.Gender.trim();
+            if (Array.from(genderSelect.options).some(option => option.value === genderValue)) {
+              genderSelect.value = genderValue;
+            } else {
+              console.error("Invalid gender value: ", genderValue);
+            }
+          }
+
+          // Set Date of Birth if available
+          if (response.DateOfBirth && /^\d{4}-\d{2}-\d{2}$/.test(response.DateOfBirth)) {
+            document.getElementById("dob").value = response.DateOfBirth;
+            calculateAge(); // Auto-calculate age after setting DOB
+          } else {
+            console.error("Invalid date format or DateOfBirth not found");
+          }
+        } else {
+          alert("Profile data not found.");
+        }
+      } else {
+        alert("Failed to fetch profile data. Server returned status: " + xhr.status);
+      }
+    }
+  };
+  xhr.send();
+}
+
+function calculateAge() {
   const dobInput = document.getElementById("dob");
   const ageInput = document.getElementById("age");
 
-  if (!dobInput || !dobInput.value) return; // Ensure dobInput exists and has a value
+  if (!dobInput || !dobInput.value) return;
 
   const dob = new Date(dobInput.value);
   const today = new Date();
@@ -1337,69 +1382,5 @@ document.addEventListener("DOMContentLoaded", function () {
   ageInput.value = age >= 0 ? age : ""; // Ensure no negative age
 }
 
-// Calculate age when the page loads (DOB is already fetched)
-window.addEventListener("DOMContentLoaded", function () {
-  setTimeout(calculateAge, 500); // Small delay to ensure the DOM is fully loaded
-});
-
-
-
-
-window.onload = function() {
-
-  fetchPatientProfile();
-};
-function fetchPatientProfile() {
-  const xhr = new XMLHttpRequest(); 
-  xhr.open('GET', 'process/fetch-patient-profile.php', true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-
-        if (response.error) {
-          // If an error message is returned, show it
-          alert(response.error);
-          return;
-        }
-
-        if (response) {
-          // Populate form fields with profile data
-          document.getElementById('patientId').value = response.Patient_Id || '';
-          document.getElementById('firstName').value = response.FirstName || '';
-          document.getElementById('lastName').value = response.LastName || '';
-          document.getElementById('middleName').value = response.MiddleName || '';
-          document.getElementById('address').value = response.Address || '';
-          document.getElementById('phone').value = response.PhoneNumber || '';
-          document.getElementById('email').value = response.Email || '';
-          
-          // Populate gender if available
-          if (response.Gender) {
-            const genderSelect = document.getElementById('gender');
-            const genderValue = response.Gender.trim();
-
-            if (Array.from(genderSelect.options).some(option => option.value === genderValue)) {
-              genderSelect.value = genderValue;
-            } else {
-              console.error('Invalid gender value: ', genderValue);
-            }
-          }
-
-          // Populate date of birth if available
-          if (response.DateOfBirth && /^\d{4}-\d{2}-\d{2}$/.test(response.DateOfBirth)) {
-            document.getElementById('dob').value = response.DateOfBirth;
-          } else {
-            console.error('Invalid date format or DateOfBirth not found');
-          }
-        } else {
-          alert("Profile data not found."); // Only alert if profile data is not found
-        }
-      } else {
-        alert("Failed to fetch profile data. Server returned status: " + xhr.status);
-      }
-    }
-  };
-  xhr.send();
-}
 
 </script>

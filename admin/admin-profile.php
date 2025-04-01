@@ -36,17 +36,6 @@ include("top-navigation.php");
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Administrator</h4>
-      <?php
-
-  // Example of checking and displaying session messages for success or error
-$status = isset($_SESSION['update_status']) ? $_SESSION['update_status'] : '';
-$message = isset($_SESSION['update_message']) ? $_SESSION['update_message'] : '';
-
-// Clear the session variables after displaying the message (optional)
-unset($_SESSION['update_status']);
-unset($_SESSION['update_message']);
-      ?>
-
 
 
                     
@@ -237,7 +226,7 @@ unset($_SESSION['update_message']);
   <div class="row">
     <!-- Submit Button -->
     <div class="col-md-12 text-center">
-      <button type="submit" class="btn btn-success">Register</button>
+      <button type="submit" class="btn btn-success">Update</button>
     </div>
   </div>
 </form>
@@ -292,16 +281,6 @@ unset($_SESSION['update_message']);
 
 <script>
     
-  // Show the modal only if there's a message
-  <?php if ($status !== ''): ?>
-    $('#registrationModal').modal('show');
-  <?php endif; ?>
-
-
-  window.onload = function() {
-    generateAdminID();
-};
-
 
 
 window.onload = function() {

@@ -33,17 +33,7 @@ include("top-navigation.php");
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Counselor</h4>
-      <?php
-
-    // Check if there's a session message for registration success or error
-    $status = isset($_SESSION['registration_status']) ? $_SESSION['registration_status'] : '';
-    $message = isset($_SESSION['registration_message']) ? $_SESSION['registration_message'] : '';
-    
-    // Clear the session variables after displaying the message (if needed)
-    unset($_SESSION['registration_status']);
-    unset($_SESSION['registration_message']);
-      
-      ?>
+  
 
 
 

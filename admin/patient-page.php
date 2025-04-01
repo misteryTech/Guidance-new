@@ -62,6 +62,7 @@ include("top-navigation.php");
         class="form-control" 
         id="patientId" 
         name="patientId" 
+        oninput="checkStudentId()" 
         maxlength="10" 
         pattern="\d+" 
         title="Counselor ID must be a number" 
@@ -69,6 +70,12 @@ include("top-navigation.php");
          
       />
     </div>
+
+    
+<div id="studentIdError" style="display:none; color:red;">Student ID already exists.</div>
+<div id="studentIdSuccess" style="display:none; color:green;">Student ID is available.</div>
+
+
   </div>
 </div>
 
@@ -464,6 +471,43 @@ include("top-navigation.php");
       submitButton.disabled = true; // Disable submit button
     }
   }
+
+
+  function checkStudentId() {
+    const studentId = document.getElementById("patientId").value;
+    const studentIdError = document.getElementById("studentIdError");
+    const studentIdSuccess = document.getElementById("studentIdSuccess");
+
+    if (studentId === "") {
+        studentIdError.style.display = "none";
+        studentIdSuccess.style.display = "none";
+        checkFormValidity();  // Recheck form validity
+        return;
+    }
+
+    // AJAX request to check student ID
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "validation/student-id-check.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = xhr.responseText;
+
+            if (response === "exists") {
+                studentIdError.style.display = "block";
+                studentIdSuccess.style.display = "none";
+            } else if (response === "available") {
+                studentIdError.style.display = "none";
+                studentIdSuccess.style.display = "block";
+            }
+            checkFormValidity(); // Check if the form is valid after validation
+        }
+    };
+
+    xhr.send("patientId=" + encodeURIComponent(studentId));
+}
+
 
   // Add event listeners to input fields to validate on change
   document.getElementById('phone').addEventListener('input', validatePhone);

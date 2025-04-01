@@ -1,5 +1,5 @@
 <?php
-session_start();  // Start the session to store session variables
+session_start();  // Start the session if needed elsewhere
 
 include("../connection.php");
 
@@ -20,20 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO counselor_table (Counselor_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
             VALUES ('$counselorId', '$email', '$firstName', '$lastName', '$gender', '$dob', '$address', '$phone', '$username', '$password', '$archive')";
 
-    // Check if the query is successful
     if ($conn->query($sql) === TRUE) {
-        $_SESSION['registration_status'] = 'success';  // Set session variable for success message
-        $_SESSION['registration_message'] = 'New counselor registered successfully!';  // Success message
+        echo "<script>alert('New counselor registered successfully!'); window.location.href='../counselor-page.php';</script>";
     } else {
-        $_SESSION['registration_status'] = 'error';  // Set session variable for error message
-        $_SESSION['registration_message'] = 'Error: ' . $conn->error;  // Error message
+        echo "<script>alert('Error: " . $conn->error . "'); window.location.href='../counselor-page.php';</script>";
     }
 
     // Close the connection
     $conn->close();
-
-    // Redirect back to the registration page (or to a page that will show the modal)
-    header("Location: ../counselor-page.php");  // Change the redirection to your page
-    exit();
 }
 ?>
