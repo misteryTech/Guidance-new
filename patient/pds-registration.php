@@ -68,7 +68,7 @@ unset($_SESSION['update_message']);
 
 
                     
-                    <form class="form-sample" id="studentPds" action="process/pds-registration.php" method="POST">
+                    <form class="form-sample" id="studentPds" action="process/pds_version2.php" method="POST">
   <p class="card-description">Student Registration Form</p>
   
   <div class="row">

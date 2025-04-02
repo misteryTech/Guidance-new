@@ -44,26 +44,40 @@ if ($stmt->execute()) {
 
     if (!empty($recipient_email) && filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
         try {
-            // Create a new PHPMailer instance
-            $mail = new PHPMailer(true);
+            // // Create a new PHPMailer instance
+            // $mail = new PHPMailer(true);
 
-            // SMTP settings
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'gfiguidanceoffice@gmail.com';
-            $mail->Password   = 'xaxdkyuxswljmaew'; // Use App Password for security
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+        
+            //  // SMTP settings
+            //  $mail->isSMTP();
+            //  $mail->Host       = 'smtp.gmail.com';
+            //  $mail->SMTPAuth   = true;
+            //  $mail->Username   = 'gfiguidanceoffice@gmail.com'; // Use env variable for security
+            //  $mail->Password   = 'xaxdkyuxswljmaew'; // Use env variable
+            //  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            //  $mail->Port       = 587;
 
-            // Email settings
-            $mail->setFrom('gfiguidanceoffice@gmail.com', 'Guidance Office');
-            $mail->addAddress($recipient_email, $recipient_name);
-            $mail->Subject = 'PDS Update Confirmation';
-            $mail->Body    = "Hello $recipient_name,\n\nYour Personal Data Sheet (PDS) has been successfully updated.\n\nBest regards,\nGuidance Office";
+            // $mail->setFrom('gfiguidanceoffice@gmail.com', 'Guidance Office');
+            // $mail->addAddress($recipient_email, $recipient_name);
+            // $mail->Subject = 'PDS Update Confirmation';
+            // $mail->Body    = "Hello $recipient_name,\n\nYour Personal Data Sheet (PDS) has been successfully updated.\n\nBest regards,\nGuidance Office";
 
-            // Send email
-            $mail->send();
+            // // Send email
+            // $mail->send();
+
+                       // Email subject & message
+                       $subject = "PDS Update Confirmation";
+                       $message = "Hello $recipient_name,\n\nYour Personal Data Sheet (PDS) has been successfully updated.\n\nBest regards,\nGuidance Office";
+               
+                       // Include email script and send email
+                       include("../send_email.php"); 
+                       sendEmail($recipient_email, $subject, $message);
+       
+
+
+
+            sendEmail($email, $subject, $message);
+
             $_SESSION['update_message'] = "Personal Data Sheet Updated Successfully. Email sent to $recipient_email";
         } catch (Exception $e) {
             $_SESSION['update_message'] = "PDS Updated, but email could not be sent. Error: " . $mail->ErrorInfo;
