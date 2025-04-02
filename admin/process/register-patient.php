@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Email subject & message
         $subject = "Welcome to Guidance GFI";
-        $message = "Dear $firstName,<br><br>
+        $message = "Dear $firstName  $lastName,<br><br>
                     Congratulations! Your registration has been successfully completed. 
                     You may now log in using your credentials.<br><br>
-                        $username, Password: <i>'$password'</i>
+                        Username: $username, Password: <i>'$password'</i>
                     Best regards,<br>
                     Guidance Office<br>
                     [Guidance Office]";
