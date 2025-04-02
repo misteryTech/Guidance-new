@@ -83,5 +83,10 @@ if ($result->num_rows === 1) {
       .registration{
         color: red;
       }
+      
+      div.dataTables_wrapper div.dataTables_length select {
+    width: 50px;
+    display: inline-block;
+}
 
   </style>

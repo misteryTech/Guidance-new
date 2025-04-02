@@ -88,4 +88,10 @@ if ($result->num_rows === 1) {
     .content-wrapper{
       background: #fb8f8370;
     }
+
+    div.dataTables_wrapper div.dataTables_length select {
+    width: 50px;
+    display: inline-block;
+}
+
   </style>

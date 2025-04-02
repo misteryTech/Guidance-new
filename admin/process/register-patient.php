@@ -1,8 +1,7 @@
 <?php
 session_start(); // Start session
-
 include("../connection.php");
- 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect form data
     $patientId  = trim($_POST['patientId']);
@@ -20,13 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check required fields
     if (empty($patientId) || empty($email) || empty($firstName) || empty($lastName) || empty($dob) || empty($username) || empty($password)) {
-        $_SESSION['registration_status'] = 'error';
-        $_SESSION['registration_message'] = 'All required fields must be filled.';
-        header("Location: ../patient-page.php");
+        echo "<script>
+                alert('All required fields must be filled.');
+                window.location.href='../patient-page.php';
+              </script>";
         exit();
     }
-
-
 
     // Use prepared statements to prevent SQL Injection
     $sql = "INSERT INTO patient_table (Patient_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive, MiddleName)
@@ -36,34 +34,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssssssssssss", $patientId, $email, $firstName, $lastName, $gender, $dob, $address, $phone, $username, $password, $archive, $middleName);
 
     if ($stmt->execute()) {
-        $_SESSION['registration_status'] = 'success';
-        $_SESSION['registration_message'] = 'New Student registered successfully!';
-
         // Email subject & message
         $subject = "Welcome to Guidance GFI";
-        $message = "Dear $firstName  $lastName,<br><br>
+        $message = "Dear $firstName $lastName,<br><br>
                     Congratulations! Your registration has been successfully completed. 
                     You may now log in using your credentials.<br><br>
-                        Username: $username, Password: <i>'$password'</i>
+                    <b>Username:</b> $username <br>
+                    <b>Password:</b> <i>$password</i><br><br>
                     Best regards,<br>
                     Guidance Office<br>
                     [Guidance Office]";
 
-        // Include email script (direct function call)
+        // Include email script and send email
         include("../send_email.php"); 
         sendEmail($email, $subject, $message);
-        
+
+        // JavaScript alert for successful registration
+        echo "<script>
+                alert('Successfully registered!');
+                window.location.href='../patient-page.php';
+              </script>";
     } else {
-        $_SESSION['registration_status'] = 'error';
-        $_SESSION['registration_message'] = 'Error: ' . $stmt->error;
+        echo "<script>
+                alert('Error: " . addslashes($stmt->error) . "');
+                window.location.href='../patient-page.php';
+              </script>";
     }
 
     // Close connections
     $stmt->close();
     $conn->close();
-
-    // Redirect back to the registration page
-    header("Location: ../patient-page.php");
-    exit();
 }
 ?>

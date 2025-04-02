@@ -1,41 +1,68 @@
 <?php
-session_start();  // Start the session to store session variables
-
-
+session_start();  // Start session
 
 include("../connection.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $adminID = $_POST['adminID'];
-    $email = $_POST['email'];
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $gender = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $address = $_POST['address'];
-    $phone = $_POST['phone'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $archive = "No";
+    // Sanitize input data
+    $adminID    = trim($_POST['adminID']);
+    $email      = trim($_POST['email']);
+    $firstName  = trim($_POST['firstName']);
+    $lastName   = trim($_POST['lastName']);
+    $gender     = trim($_POST['gender']);
+    $dob        = trim($_POST['dob']);
+    $address    = trim($_POST['address']);
+    $phone      = trim($_POST['phone']);
+    $username   = trim($_POST['username']);
+    $password   = trim($_POST['password']);
+    $archive    = "No";
 
-    // SQL Query to insert data into the database
-    $sql = "INSERT INTO admin_table (Admin_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
-            VALUES ('$adminID', '$email', '$firstName', '$lastName', '$gender', '$dob', '$address', '$phone', '$username', '$password', '$archive')";
-
-    // Check if the query is successful
-    if ($conn->query($sql) === TRUE) {
-        $_SESSION['registration_status'] = 'success';  // Set session variable for success message
-        $_SESSION['registration_message'] = 'New administrator registered successfully!';  // Success message
-    } else {
-        $_SESSION['registration_status'] = 'error';  // Set session variable for error message
-        $_SESSION['registration_message'] = 'Error: ' . $conn->error;  // Error message
+    // Check for required fields
+    if (empty($adminID) || empty($email) || empty($firstName) || empty($lastName) || empty($dob) || empty($username) || empty($password)) {
+        echo "<script>
+                alert('All required fields must be filled.');
+                window.location.href='../admin-page.php';
+              </script>";
+        exit();
     }
 
-    // Close the connection
-    $conn->close();
+    // SQL Query using prepared statement
+    $sql = "INSERT INTO admin_table (Admin_Id, Email, FirstName, LastName, Gender, DateOfBirth, Address, PhoneNumber, Username, Password, Archive)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Redirect back to the registration page (or to a page that will show the modal)
-    header("Location: ../administrator-registration.php");  // Change the redirection to your page
-    exit();
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssssss", $adminID, $email, $firstName, $lastName, $gender, $dob, $address, $phone, $username, $password, $archive);
+
+    if ($stmt->execute()) {
+        // Email subject & message
+        $subject = "Welcome to Guidance GFI";
+        $message = "Dear $firstName $lastName,<br><br>
+                    Congratulations! Your registration has been successfully completed. 
+                    You may now log in using your credentials.<br><br>
+                    <b>Username:</b> $username <br>
+                    <b>Password:</b> <i>$password</i><br><br>
+                    Best regards,<br>
+                    Guidance Office<br>
+                    [Guidance Office]";
+
+        // Include email script and send email
+        include("../send_email.php"); 
+        sendEmail($email, $subject, $message);
+
+        // JavaScript alert for successful registration
+        echo "<script>
+                alert('Successfully registered!');
+                window.location.href='../administrator-registration.php';
+              </script>";
+    } else {
+        echo "<script>
+                alert('Error: " . addslashes($stmt->error) . "');
+                window.location.href='../administrator-registration.php';
+              </script>";
+    }
+
+    // Close connections
+    $stmt->close();
+    $conn->close();
 }
 ?>
