@@ -283,10 +283,7 @@ include("top-navigation.php");
 ?>
 
   <script>
-  // Show the modal only if there's a message
-  <?php if ($status !== ''): ?>
-    $('#registrationModal').modal('show');
-  <?php endif; ?>
+
 
   // Single window.onload function
   window.onload = function() {

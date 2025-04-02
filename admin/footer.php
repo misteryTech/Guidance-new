@@ -83,20 +83,19 @@
 
 
 $(document).ready(function () {
-    // Array of table IDs
-    let tableIds = ['#incident_table','#administrator_table','#archive_table','#counselor_table','#c_archive_table','#student_table','#c_patient_archive','#incident_table_query']; // Add more as needed
+    let tableIds = ['#incident_table', '#administrator_table', '#archive_table', '#counselor_table', '#c_archive_table', '#student_table', '#c_patient_archive', '#incident_table_query'];
 
-    // Loop through each ID and initialize DataTables
     tableIds.forEach(function (id) {
-        $(id).DataTable({
-            "paging": true,        
-            "searching": true,     
-            "ordering": true,      
-            "info": true           
-        });
+        if ($(id).length) {  // Ensure the table exists
+            $(id).DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true
+            });
+        }
     });
 });
-
 
 </script>
 
