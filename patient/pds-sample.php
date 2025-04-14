@@ -168,12 +168,14 @@ unset($_SESSION['update_message']);
 
 
     <div class="col-md-6">
-  <div class="form-group row">
-    <label for="dob" class="col-sm-3 col-form-label">Date of Birth <span class="notification">*</span></label>
-    <div class="col-sm-9">
-      <input type="date" class="form-control" id="dob" name="dob" required />
+      <div class="form-group row">
+        <label for="dob" class="col-sm-3 col-form-label">Date of Birth <span class="notification">*</span></label>
+        <div class="col-sm-9">
+          <input type="date" class="form-control" id="dob" name="dob" required />
+        </div>
+      </div>
     </div>
-  </div>
+
 
   <div class="form-group row">
     <label for="age" class="col-sm-3 col-form-label">Age <span class="notification">*</span></label>
@@ -612,7 +614,55 @@ $religions = ["Catholic","Christian", "Islam", "Hindu", "Buddhist", "Other"];
         <label><b>Other members of household?</b> (Relatives, Helpers, etc.)</label>
 
         <!-- Loop for Household Members -->
-     
+        <script>
+            const householdCount = 4;
+            document.addEventListener("DOMContentLoaded", function () {
+                let container = document.getElementById("household-container");
+                for (let i = 1; i <= householdCount; i++) {
+                    container.innerHTML += `
+                        <h6>Household ${i}</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Firstname</label>
+                                    <input type="text" class="form-control" id="household${i}fname" name="household${i}fname">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Lastname</label>
+                                    <input type="text" class="form-control" id="household${i}lname" name="household${i}lname">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Sex</label>
+                                    <input type="text" class="form-control" id="household${i}sex" name="household${i}sex">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Age</label>
+                                    <input type="text" class="form-control" id="household${i}age" name="household${i}age">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Civil Status</label>
+                                    <input type="text" class="form-control" id="household${i}civilstatus" name="household${i}civilstatus">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Relationship</label>
+                                    <input type="text" class="form-control" id="household${i}relationship" name="household${i}relationship">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        </script>
 
         <div id="household-container"></div>
     </div>

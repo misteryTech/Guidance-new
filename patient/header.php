@@ -13,7 +13,7 @@ include("connection.php");
 
 // Fetch the admin details from the database
 $Patient_Id = $_SESSION['Patient_Id'];
-$sql = "SELECT FirstName, LastName FROM patient_table WHERE Patient_Id = ?";
+$sql = "SELECT * FROM patient_table WHERE Patient_Id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $Patient_Id); // Bind the session admin ID as a string
 $stmt->execute();
@@ -23,7 +23,10 @@ $result = $stmt->get_result();
 if ($result->num_rows === 1) {
     $admin = $result->fetch_assoc();
     $first_name = $admin['FirstName'];
+    $middle_name = $admin['MiddleName'];
     $last_name = $admin['LastName'];
+    $gender = $admin['Gender'];
+    $dob = $admin['DateOfBirth'];
     $fullname = $first_name .' '. $last_name;
 
 } else {
