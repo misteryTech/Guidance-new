@@ -34,7 +34,7 @@
                                                                   <div class="form-group row">
                                                                       <label for="wife_age">Age</label>
                                                                       <div class="col-sm-10">
-                                                                          <input required type="text" class="form-control" id="wife_age" name="wife_age">
+                                                                          <input required type="number" class="form-control" id="wife_age" name="wife_age">
                                                                       </div>
                                                                   </div>
                                                               </div>

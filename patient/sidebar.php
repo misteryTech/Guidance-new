@@ -33,13 +33,13 @@
                 <i class="mdi mdi-calendar menu-icon"></i>
               </a>
             </li>
-
+<!-- 
             <li class="nav-item <?= $current_page =='pds_version2.php' ? 'active' : ''?>">
               <a class="nav-link" href="pds_version2.php">
                 <span class="menu-title">Version 2</span>
                 <i class="mdi mdi-calendar menu-icon"></i>
               </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#pds" aria-expanded="false" aria-controls="icons">
@@ -48,9 +48,30 @@
               </a>
               <div class="collapse" id="pds">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item">
-                    <a class="nav-link" href="pds-registration.php">Data Sheet</a>
-                  </li>
+                <?php
+
+$found = false;
+
+
+$sql = "SELECT * FROM pds_table WHERE student_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $Patient_Id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $found = true;
+}
+
+?>
+
+<!-- Dynamic link based on the condition -->
+<li class="nav-item">
+    <a class="nav-link" href="<?= $found ? 'view-profiles.php' : 'pds_version2.php' ?>">
+        <?= $found ? 'View Data Sheet' : 'Create Data Sheet' ?>
+    </a>
+</li>
+
                 </ul>
               </div>
             </li>

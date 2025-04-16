@@ -99,7 +99,7 @@
                     </ul>
 
                     <!-- Tab Content -->
-                    <form class="form-sample" id="studentPds" action="process/pds_version2.php" method="POST">
+                    <form class="form-sample" id="studentPds" action="pds_quest/pds_reg.php" method="POST">
                         <div class="tab-content" id="pills-tabContent">
                             <!-- Question 1 -->
                             <div class="tab-pane fade show active" id="pills-q1" role="tabpanel">
@@ -196,7 +196,7 @@
                                                    <div class="form-group row">
                                                    <label for="age" class="col-sm-5 col-form-label">Age <span class="notification">*</span></label>
                                                      <div class="col-sm-10">
-                                                       <input type="text" class="form-control" id="age" name="age" required  />
+                                                       <input type="text" class="form-control" id="age" name="age" readonly />
                                                      </div>
                                                    </div>
                                                  </div>

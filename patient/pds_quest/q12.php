@@ -112,6 +112,44 @@
                                                             </div>
                                                         </div>
 
+                                                        
+                                                        <p><strong>EMERGENCY CONTACT INFORMATION</strong></p>
+
+                                                        <div class="row">
+                                                         <!-- Relationship Field -->
+                                                         <div class="col-md-6">
+                                                             <div class="form-group row">
+                                                                 <label for="relationship">Relationship</label>
+                                                                 <div class="col-sm-9">
+                                                                     <input type="text" class="form-control" id="emergency_relationship" name="emergency_relationship" required>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                         <!-- Contact Numbers Field -->
+                                                         <div class="col-md-6">
+                                                             <div class="form-group row">
+                                                                 <label for="emergency-contact">Contact Numbers</label>
+                                                                 <div class="col-sm-9">
+                                                                     <input type="text" class="form-control" id="emergency-contact" name="emergency-contact" required>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                         <!-- Complete Address Field -->
+                                                         <div class="col-md-6">
+                                                             <div class="form-group row">
+                                                                 <label for="emergency-address">Complete Address</label>
+                                                                 <div class="col-sm-9">
+                                                                     <input type="text" class="form-control" id="emergency-address" name="emergency-address" required>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                        </div>
+
+
+
+
                                                 </div>
                                          </div>
                                          <button type="submit" class="btn btn-success">Submit</button>

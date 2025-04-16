@@ -1,47 +1,35 @@
 <?php
 include("connection.php");
 
-// Get the Patient ID from the URL
-$patientId = isset($_GET['Patient_Id']) ? $_GET['Patient_Id'] : null;
-if (!empty($patientId)) {
+session_start(); // Start the session to access session variables
+
+
+// Check if the user is logged in by verifying the session variable
+if (!isset($_SESSION['Patient_Id'])) {
+    // If the session variable 'adminID' is not set, redirect to the login page
+    header("Location: ../login.php"); // Replace 'login.php' with the path to your login page
+    exit(); // Stop further script execution
+}
+
+include("connection.php");
+
+// Fetch the admin details from the database
+$Patient_Id = $_SESSION['Patient_Id'];
+
+
+if ($Patient_Id) {
     $sql = "
-        SELECT 
-            pt.Patient_Id, 
-            pt.email AS student_email, 
-            pt.*,
-            pds.religion AS student_religion,
-            pds.tribe AS student_tribe,
-            pds.*, 
-            PI.religion AS parents_religion,
-            PI.tribe AS parents_tribe,
-            PI.email AS parents_email,
-            PI.*, 
-            pds.id AS pds_id
-        FROM patient_table AS pt
-        LEFT JOIN pds_table AS pds ON pt.Patient_Id = pds.student_id
-        LEFT JOIN parents_info AS PI ON PI.student_id = pds.id
-        WHERE pt.Patient_Id = ?
+        SELECT pt.*, ST.*, pt.religion AS student_religion, pt.tribe AS student_tribe, pt.student_id AS id
+        FROM pds_table AS pt
+        INNER JOIN patient_table AS ST ON ST.Patient_Id = pt.student_id
+        WHERE pt.student_id = ?
     ";
-
     $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("s", $patientId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $patient = $result->fetch_assoc();
-
-        if ($patient) {
-            $student_id = $patient['Patient_Id'];
-        } else {
-            echo "<p class='text-danger'>No records found for the given Patient ID.</p>";
-            exit;
-        }
-
-        $stmt->close();
-    } else {
-        echo "<p class='text-danger'>Database error: " . $conn->error . "</p>";
-        exit;
-    }
+    $stmt->bind_param("s", $Patient_Id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $patient = $result->fetch_assoc();
+    $stmt->close();
 } else {
     echo "<p class='text-danger'>Invalid Patient ID.</p>";
     exit;
@@ -171,10 +159,9 @@ if (!empty($patientId)) {
                         <hr>
 
                         <h1>Personal Information</h1>
-                        
                         <div class=" mt-2">
                                 <button  class="btn print-button btn-primary" onclick="printSection()">Print</button> 
-                                <a href="personal-data-list.php"> <button  class="btn print-button btn-back"> Back to Dashboard</button> </a>
+                                <button  class="btn btn-primary" ><a href="index.php">Back to Dashboard</a></button> 
                             </div>
                         <?php if ($patient): ?>
                             <div class="container-fluid">
@@ -182,7 +169,7 @@ if (!empty($patientId)) {
                                     <div class="col-md-6">
                                         <h4 class="mb-3">Personal Details</h4>
                                         <p><strong>Student ID:</strong> <?= htmlspecialchars($patient['Patient_Id']); ?></p>
-                                        <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] ." " .   $patient['MiddleName'] . " " . $patient['LastName']); ?></p>
+                                        <p><strong>Full Name:</strong> <?= htmlspecialchars($patient['FirstName'] . " " . $patient['LastName']); ?></p>
                                         <p><strong>Date of Birth:</strong> <?= htmlspecialchars($patient['DateOfBirth']); ?></p>
                                         <p><strong>Gender:</strong> <?= htmlspecialchars($patient['Gender']); ?></p>
                                         <p><strong>Birth Address:</strong> <?= htmlspecialchars($patient['birth_address']); ?></p>
@@ -225,7 +212,7 @@ if (!empty($patientId)) {
                                          <div class="col-md-6">
 
                                              <p><strong>Where did you stay here in General Santos City:</strong> <?= htmlspecialchars($patient['stay_in_gensan']); ?></p>
-         
+                                             <p><strong>Contact No.:</strong> <?= htmlspecialchars($patient['landlord_number']); ?></p>
                                          </div>
 
                                          <div class="col-md-6">
@@ -237,6 +224,7 @@ if (!empty($patientId)) {
 
                                      
 
+
                         
                                      <hr>
                                      <h1>Family History</h1>
@@ -246,7 +234,7 @@ if (!empty($patientId)) {
                     // Assuming you have a database connection
               
                     // Fetch father’s details
-                   // Assuming patient ID is available
+                    $student_id = $patient['id']; // Assuming patient ID is available
                     $sql_parents = "SELECT * FROM parents_info WHERE student_id = ? AND parent_type = 'father'";
                     $stmt = $conn->prepare($sql_parents);
                     $stmt->bind_param("i", $student_id);
@@ -255,12 +243,9 @@ if (!empty($patientId)) {
                     $father = $result->fetch_assoc();
 
                     if ($father) {
-                        
                     ?>
-                                                    
                         <div class="row">
                             <div class="col-md-6">
-
                                 <p><strong>Fullname:</strong> <?= htmlspecialchars($father['firstname'] . " " . $father['lastname']); ?></p>
                                 <p><strong>Email:</strong> <?= htmlspecialchars($father['email']); ?></p>
                                 <p><strong>Mobile No.:</strong> <?= htmlspecialchars($father['cellphone']); ?></p>
@@ -394,7 +379,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
                                                 <h1>School Work & Progress Record</h1>
                     <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['Patient_Id']; // Assuming patient ID is available
+                    $student_id = $patient['id']; // Assuming patient ID is available
                     $sql_kinder = "SELECT * FROM education WHERE student_id = ? AND level = 'Kindergarten'";
                     $stmt = $conn->prepare($sql_kinder);
                     $stmt->bind_param("i", $student_id);
@@ -437,7 +422,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['Patient_Id']; // Assuming patient ID is available
+                    $student_id = $patient['id']; // Assuming patient ID is available
                     $sql_elementary = "SELECT * FROM education WHERE student_id = ? AND level = 'Elementary'";
                     $stmt = $conn->prepare($sql_elementary);
                     $stmt->bind_param("i", $student_id);
@@ -481,7 +466,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['Patient_Id']; // Assuming patient ID is available
+                    $student_id = $patient['id']; // Assuming patient ID is available
                     $sql_jhs = "SELECT * FROM education WHERE student_id = ? AND level = 'Junior High School'";
                     $stmt = $conn->prepare($sql_jhs);
                     $stmt->bind_param("i", $student_id);
@@ -529,7 +514,7 @@ $household_members = $result->fetch_all(MYSQLI_ASSOC);
 
 <?php
                                                 // Fetch father’s details
-                    $student_id = $patient['Patient_Id']; // Assuming patient ID is available
+                    $student_id = $patient['id']; // Assuming patient ID is available
                     $sql_shs = "SELECT * FROM education WHERE student_id = ? AND level = 'Senior High School'";
                     $stmt = $conn->prepare($sql_shs);
                     $stmt->bind_param("i", $student_id);

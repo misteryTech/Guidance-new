@@ -44,26 +44,7 @@ if ($stmt->execute()) {
 
     if (!empty($recipient_email) && filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
         try {
-            // // Create a new PHPMailer instance
-            // $mail = new PHPMailer(true);
 
-        
-            //  // SMTP settings
-            //  $mail->isSMTP();
-            //  $mail->Host       = 'smtp.gmail.com';
-            //  $mail->SMTPAuth   = true;
-            //  $mail->Username   = 'gfiguidanceoffice@gmail.com'; // Use env variable for security
-            //  $mail->Password   = 'xaxdkyuxswljmaew'; // Use env variable
-            //  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            //  $mail->Port       = 587;
-
-            // $mail->setFrom('gfiguidanceoffice@gmail.com', 'Guidance Office');
-            // $mail->addAddress($recipient_email, $recipient_name);
-            // $mail->Subject = 'PDS Update Confirmation';
-            // $mail->Body    = "Hello $recipient_name,\n\nYour Personal Data Sheet (PDS) has been successfully updated.\n\nBest regards,\nGuidance Office";
-
-            // // Send email
-            // $mail->send();
 
                        // Email subject & message
                        $subject = "PDS Update Confirmation";
@@ -110,24 +91,34 @@ if ($stmt->execute()) {
         $stmt_parent->execute();
     }
 
-    // Insert Household Members
-    for ($i = 1; isset($_POST["household{$i}fname"]); $i++) {
+
+// Insert Household Members if not marked N/A
+for ($i = 1; $i <= 4; $i++) {
+    $is_na = isset($_POST["household{$i}na"]);
+
+    if (!$is_na && !empty($_POST["household{$i}fname"])) {
         $household_fname = sanitize_input($_POST["household{$i}fname"]);
         $household_lname = sanitize_input($_POST["household{$i}lname"]);
         $household_sex = sanitize_input($_POST["household{$i}sex"]);
-        $household_age = sanitize_input($_POST["household{$i}age"]);
+        $household_age = (int)sanitize_input($_POST["household{$i}age"]);
         $household_civilstatus = sanitize_input($_POST["household{$i}civilstatus"]);
         $household_relationship = sanitize_input($_POST["household{$i}relationship"]);
 
-        if (!empty($household_fname)) {
-            $sql_household = "INSERT INTO household_members (student_id, firstname, lastname, sex, age, civil_status, relationship) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stmt_household = $conn->prepare($sql_household);
-            $stmt_household->bind_param("issssss", 
-                $last_insert_id, $household_fname, $household_lname, $household_sex, $household_age, $household_civilstatus, $household_relationship
-            );
-            $stmt_household->execute();
-        }
+        $sql = "INSERT INTO household_members (student_id, firstname, lastname, sex, age, civil_status, relationship)
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("isssiss", 
+            $last_insert_id, 
+            $household_fname, 
+            $household_lname, 
+            $household_sex, 
+            $household_age, 
+            $household_civilstatus, 
+            $household_relationship
+        );
+        $stmt->execute();
     }
+}
 
     // Insert Education Details
     $educationLevels = ["Kindergarten", "Elementary", "Junior High School", "Senior High School"];
