@@ -558,7 +558,7 @@ staySelect.addEventListener('change', function () {
     } else {
         // Clear and make editable again
         if (landlordName.value === 'N/A') landlordName.value = '';
-        if (landlordNumber.value === '0000000000') landlordNumber.value = '';
+        if (landlordNumber.value === '') landlordNumber.value = '';
 
     }
 });
@@ -589,5 +589,15 @@ window.addEventListener('DOMContentLoaded', calculateAge);
 
 // Run when dob changes
 document.getElementById('dob').addEventListener('change', calculateAge);
+
+function setAsNA() {
+    document.getElementById('wife_firstname').value = 'N/A';
+    document.getElementById('wife_lastname').value = 'N/A';
+    document.getElementById('landlord_number').value = '0';
+    document.getElementById('wife_age').value = '0';
+    document.getElementById('wife_occupation').value = 'N/A';
+    document.getElementById('wife_educ').value = 'N/A';
+}
+
 
 </script>
