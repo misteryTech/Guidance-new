@@ -177,7 +177,7 @@ try {
     if ($stmt->execute()) {
         echo "Inserted successfully.";
     }
-     echo "<script>alert('New counselor registered successfully!'); window.location.href='../pds-registration.php';</script>";
+     echo "<script>alert('Student PDS Updated successfully!'); window.location.href='../pds-registration.php';</script>";
 } else {
     echo "<script>alert('Error: " . $conn->error . "'); window.location.href='../pds-registration.php';</script>";
 }
